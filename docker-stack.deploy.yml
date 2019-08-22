@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  worker_peekaboo:
+    image: dermaster/worker-peekaboo:latest
+    volumes:
+      - type: volume
+        source: worker_peekaboo_volume
+        target: /var/local
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+         cpus: "0.1"
+         memory: 100M
+    networks:
+      - deploy_network
+networks:
+  deploy_network:
+volumes:
+  worker_peekaboo_volume:
+    external: true

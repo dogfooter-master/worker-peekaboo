@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+  worker_peekaboo:
+    build:
+      context: .
+      dockerfile: peekaboo/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/peekaboo
+    container_name: worker_peekaboo
+   #ports:
+   #- 8800:8081
+   #- 8801:8082
+    image: dermaster/worker-peekaboo-dev:latest

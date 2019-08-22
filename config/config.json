@@ -1,0 +1,7 @@
+{
+  "server": {
+    "pikabu": {
+      "grpc_hosts": ":PORT"
+    }
+  }
+}

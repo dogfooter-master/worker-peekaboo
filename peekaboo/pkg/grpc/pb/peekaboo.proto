@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+//The Peekaboo service definition.
+service Peekaboo {
+    rpc Pikabu (PikabuRequest) returns (PikabuReply);
+}
+
+message PikabuRequest {
+    string category = 1;
+}
+
+message PikabuReply {
+    string category = 1;
+}
+
