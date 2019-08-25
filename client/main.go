@@ -79,13 +79,14 @@ func main() {
 }
 
 func Peekaboo() {
-	if len(tokens) < 2 {
-		fmt.Fprintf(os.Stderr, "%s: <service> <category>\n", GetFunctionName())
+	if len(tokens) < 3 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <category> <keyword>\n", GetFunctionName())
 		return
 	}
 
 	message := pb.PikabuRequest{
 		Category: tokens[1],
+		Keyword:  tokens[2],
 	}
 
 	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())

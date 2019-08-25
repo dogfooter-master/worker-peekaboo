@@ -18,7 +18,16 @@ type basicPeekabooService struct{}
 
 func (b *basicPeekabooService) Pikabu(ctx context.Context, req *pb.PikabuRequest) (res *pb.PikabuReply, err error) {
 
-	fmt.Fprintf(os.Stderr, "DEBUG: %v\n", req.Category)
+	fmt.Fprintf(os.Stderr, "DEBUG: Category: %v\n", req.Category)
+
+	pWin := PeekabooWin{
+		Wildcard: req.Keyword,
+	}
+	pWin.FindWindowWildcard()
+
+	fmt.Println("Result:", pWin)
+
+	pWin.GetWindowScreenShot(pWin.HWNDList[0])
 
 	res = &pb.PikabuReply{
 		Category: "response_" + req.Category,

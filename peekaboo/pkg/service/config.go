@@ -12,8 +12,13 @@ type HostsConfig struct {
 type ServerConfig struct {
 	Pikabu HostsConfig `mapstructure:"pikabu"`
 }
+type SizeConfig struct {
+	Width  int32 `mapstructure:"width"`
+	Height int32 `mapstructure:"height"`
+}
 
 var serverHostConfig ServerConfig
+var sizeConfig SizeConfig
 
 func init() {
 	if err := LoadConfig(); err != nil {
@@ -22,6 +27,8 @@ func init() {
 
 	viper.GetStringMap("server")
 	_ = viper.UnmarshalKey("server", &serverHostConfig)
+	viper.GetStringMap("size")
+	_ = viper.UnmarshalKey("size", &sizeConfig)
 
 	//viper.Debug()
 }
@@ -44,4 +51,10 @@ func GetConfigServerGrpc() string {
 	} else {
 		return serverHostConfig.Pikabu.GrpcHosts
 	}
+}
+func GetConfigSizeWidth() int32 {
+	return sizeConfig.Width
+}
+func GetConfigSizeHeight() int32 {
+	return sizeConfig.Height
 }
