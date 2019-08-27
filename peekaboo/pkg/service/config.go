@@ -35,7 +35,7 @@ func init() {
 func LoadConfig() (err error) {
 	viper.SetConfigFile(os.Getenv("PIKABU_HOME") + "/config/config.json")
 	if err = viper.ReadInConfig(); err != nil {
-		viper.SetConfigFile(os.Getenv("PIKABU_HOME") + "/peekaboo" + "/config/config.json")
+		viper.SetConfigFile(os.Getenv("PIKABU_HOME") + "/worker-peekaboo" + "/config/config.json")
 		if err = viper.ReadInConfig(); err != nil {
 			return
 		}
