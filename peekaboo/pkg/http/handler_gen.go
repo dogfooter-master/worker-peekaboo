@@ -18,5 +18,6 @@ func NewHTTPHandler(endpoints endpoint.Endpoints, options map[string][]http.Serv
 	makeEndStreamingHandler(m, endpoints, options["EndStreaming"])
 	makeChangeQualityHandler(m, endpoints, options["ChangeQuality"])
 	makeChangeFpsHandler(m, endpoints, options["ChangeFps"])
+	makeChangePropertiesHandler(m, endpoints, options["ChangeProperties"])
 	return m
 }

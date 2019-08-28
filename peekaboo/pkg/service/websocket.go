@@ -39,6 +39,7 @@ var upgrader = websocket.Upgrader{
 // 클라이언트 정보
 type Client struct {
 	Conn *websocket.Conn
+	Id string
 	Send chan []byte
 }
 type Hub struct {
@@ -90,9 +91,10 @@ func (c *Client) readPump() {
 				WebRTCMap = make(map[string]WebRTC)
 			}
 			webRTC := WebRTC{}
-			webRTC.CreateDataChannel()
+			webRTC.CreateDataChannel(id)
 			webRTC.CreateOffer()
 			WebRTCMap[id] = webRTC
+			c.Id = id
 
 			message.Service = "Offer"
 			message.Data = webRTC.Offer
@@ -220,6 +222,10 @@ func (h *Hub) run() {
 				//userid := client.user.UserId
 				//remember := client.remember
 				//session_uuid := client.session_uuid
+				if _, ok := WebRTCMap[client.Id]; ok {
+					WebRTCMap[client.Id].DataChannel.Close()
+					delete(WebRTCMap, client.Id)
+				}
 				delete(h.Clients, client)
 				close(client.Send)
 

@@ -3,9 +3,10 @@ package service
 import (
 	"bytes"
 	"context"
-	"github.com/TheTitanrain/w32"
 	"image/jpeg"
 	"worker-peekaboo/peekaboo/pkg/grpc/pb"
+
+	"github.com/TheTitanrain/w32"
 
 	"github.com/pion/webrtc"
 )
@@ -20,6 +21,7 @@ type PeekabooService interface {
 	EndStreaming(ctx context.Context, req *pb.EndStreamingRequest) (res *pb.EndStreamingReply, err error)
 	ChangeQuality(ctx context.Context, req *pb.ChangeQualityRequest) (res *pb.ChangeQualityReply, err error)
 	ChangeFps(ctx context.Context, req *pb.ChangeFpsRequest) (res *pb.ChangeFpsReply, err error)
+	ChangeProperties(ctx context.Context, req *pb.ChangePropertiesRequest) (res *pb.ChangePropertiesReply, err error)
 }
 
 type basicPeekabooService struct{}
@@ -88,17 +90,32 @@ func (b *basicPeekabooService) RefreshWindows(ctx context.Context, req *pb.Refre
 }
 
 func (b *basicPeekabooService) StartStreaming(ctx context.Context, req *pb.StartStreamingRequest) (res *pb.StartStreamingReply, err error) {
-
-	StreamingRequest <- StreamObject{Command: "start", Handle: w32.HWND(req.Handle)}
-
+	ss := StreamObject{
+		Command:      "start",
+		Handle:       w32.HWND(req.Handle),
+		ChannelLabel: req.Label,
+	}
+	if req.Fps > 0 {
+		ss.Fps = int(req.Fps)
+	} else {
+		ss.Fps = 24
+	}
+	if req.Quality > 0 {
+		ss.Quality = int(req.Quality)
+	} else {
+		ss.Quality = 50
+	}
+	StreamingRequest <- ss
 	res = &pb.StartStreamingReply{
-		Handle: req.Handle,
+		Label: req.Label,
 	}
 	return res, err
 }
 func (b *basicPeekabooService) EndStreaming(ctx context.Context, req *pb.EndStreamingRequest) (res *pb.EndStreamingReply, err error) {
-
-	StreamingRequest <- StreamObject{Command: "stop"}
+	StreamingRequest <- StreamObject{
+		Command:      "stop",
+		ChannelLabel: req.Label,
+	}
 
 	res = &pb.EndStreamingReply{
 		Handle: req.Handle,
@@ -106,7 +123,11 @@ func (b *basicPeekabooService) EndStreaming(ctx context.Context, req *pb.EndStre
 	return res, err
 }
 func (b *basicPeekabooService) ChangeQuality(ctx context.Context, req *pb.ChangeQualityRequest) (res *pb.ChangeQualityReply, err error) {
-	StreamingRequest <- StreamObject{Command: "quality", Quality:int(req.Quality)}
+	StreamingRequest <- StreamObject{
+		Command:      "quality",
+		ChannelLabel: req.Label,
+		Quality:      int(req.Quality),
+	}
 
 	res = &pb.ChangeQualityReply{
 		Quality: req.Quality,
@@ -114,10 +135,29 @@ func (b *basicPeekabooService) ChangeQuality(ctx context.Context, req *pb.Change
 	return res, err
 }
 func (b *basicPeekabooService) ChangeFps(ctx context.Context, req *pb.ChangeFpsRequest) (res *pb.ChangeFpsReply, err error) {
-	StreamingRequest <- StreamObject{Command: "fps", Fps:int(req.Fps)}
+	StreamingRequest <- StreamObject{
+		Command:      "fps",
+		ChannelLabel: req.Label,
+		Fps:          int(req.Fps),
+	}
 
 	res = &pb.ChangeFpsReply{
 		Fps: req.Fps,
+	}
+	return res, err
+}
+
+func (b *basicPeekabooService) ChangeProperties(ctx context.Context, req *pb.ChangePropertiesRequest) (res *pb.ChangePropertiesReply, err error) {
+	StreamingRequest <- StreamObject{
+		Command:      "change",
+		Handle:       w32.HWND(req.Handle),
+		ChannelLabel: req.Label,
+		Fps:          int(req.Fps),
+		Quality:      int(req.Quality),
+	}
+
+	res = &pb.ChangePropertiesReply{
+		Label: req.Label,
 	}
 	return res, err
 }

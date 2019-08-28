@@ -242,3 +242,41 @@ func (e Endpoints) ChangeFps(ctx context.Context, req *pb.ChangeFpsRequest) (res
 	}
 	return response.(ChangeFpsResponse).Res, response.(ChangeFpsResponse).Err
 }
+
+// ChangePropertiesRequest collects the request parameters for the ChangeProperties method.
+type ChangePropertiesRequest struct {
+	Req *pb.ChangePropertiesRequest `json:"req"`
+}
+
+// ChangePropertiesResponse collects the response parameters for the ChangeProperties method.
+type ChangePropertiesResponse struct {
+	Res *pb.ChangePropertiesReply `json:"res"`
+	Err error                     `json:"err"`
+}
+
+// MakeChangePropertiesEndpoint returns an endpoint that invokes ChangeProperties on the service.
+func MakeChangePropertiesEndpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(ChangePropertiesRequest)
+		res, err := s.ChangeProperties(ctx, req.Req)
+		return ChangePropertiesResponse{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r ChangePropertiesResponse) Failed() error {
+	return r.Err
+}
+
+// ChangeProperties implements Service. Primarily useful in a client.
+func (e Endpoints) ChangeProperties(ctx context.Context, req *pb.ChangePropertiesRequest) (res *pb.ChangePropertiesReply, err error) {
+	request := ChangePropertiesRequest{Req: req}
+	response, err := e.ChangePropertiesEndpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(ChangePropertiesResponse).Res, response.(ChangePropertiesResponse).Err
+}

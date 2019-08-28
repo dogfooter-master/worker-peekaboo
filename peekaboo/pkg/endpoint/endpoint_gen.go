@@ -10,24 +10,26 @@ import (
 // meant to be used as a helper struct, to collect all of the endpoints into a
 // single parameter.
 type Endpoints struct {
-	PikabuEndpoint         endpoint.Endpoint
-	RefreshWindowsEndpoint endpoint.Endpoint
-	StartStreamingEndpoint endpoint.Endpoint
-	EndStreamingEndpoint   endpoint.Endpoint
-	ChangeQualityEndpoint  endpoint.Endpoint
-	ChangeFpsEndpoint      endpoint.Endpoint
+	PikabuEndpoint           endpoint.Endpoint
+	RefreshWindowsEndpoint   endpoint.Endpoint
+	StartStreamingEndpoint   endpoint.Endpoint
+	EndStreamingEndpoint     endpoint.Endpoint
+	ChangeQualityEndpoint    endpoint.Endpoint
+	ChangeFpsEndpoint        endpoint.Endpoint
+	ChangePropertiesEndpoint endpoint.Endpoint
 }
 
 // New returns a Endpoints struct that wraps the provided service, and wires in all of the
 // expected endpoint middlewares
 func New(s service.PeekabooService, mdw map[string][]endpoint.Middleware) Endpoints {
 	eps := Endpoints{
-		ChangeFpsEndpoint:      MakeChangeFpsEndpoint(s),
-		ChangeQualityEndpoint:  MakeChangeQualityEndpoint(s),
-		EndStreamingEndpoint:   MakeEndStreamingEndpoint(s),
-		PikabuEndpoint:         MakePikabuEndpoint(s),
-		RefreshWindowsEndpoint: MakeRefreshWindowsEndpoint(s),
-		StartStreamingEndpoint: MakeStartStreamingEndpoint(s),
+		ChangeFpsEndpoint:        MakeChangeFpsEndpoint(s),
+		ChangePropertiesEndpoint: MakeChangePropertiesEndpoint(s),
+		ChangeQualityEndpoint:    MakeChangeQualityEndpoint(s),
+		EndStreamingEndpoint:     MakeEndStreamingEndpoint(s),
+		PikabuEndpoint:           MakePikabuEndpoint(s),
+		RefreshWindowsEndpoint:   MakeRefreshWindowsEndpoint(s),
+		StartStreamingEndpoint:   MakeStartStreamingEndpoint(s),
 	}
 	for _, m := range mdw["Pikabu"] {
 		eps.PikabuEndpoint = m(eps.PikabuEndpoint)
@@ -46,6 +48,9 @@ func New(s service.PeekabooService, mdw map[string][]endpoint.Middleware) Endpoi
 	}
 	for _, m := range mdw["ChangeFps"] {
 		eps.ChangeFpsEndpoint = m(eps.ChangeFpsEndpoint)
+	}
+	for _, m := range mdw["ChangeProperties"] {
+		eps.ChangePropertiesEndpoint = m(eps.ChangePropertiesEndpoint)
 	}
 	return eps
 }

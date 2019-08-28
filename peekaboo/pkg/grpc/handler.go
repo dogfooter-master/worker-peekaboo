@@ -146,3 +146,26 @@ func (g *grpcServer) ChangeFps(ctx context1.Context, req *pb.ChangeFpsRequest) (
 	}
 	return rep.(*pb.ChangeFpsReply), nil
 }
+
+func makeChangePropertiesHandler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.ChangePropertiesEndpoint, decodeChangePropertiesRequest, encodeChangePropertiesResponse, options...)
+}
+
+func decodeChangePropertiesRequest(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.ChangePropertiesRequest)
+	return endpoint.ChangePropertiesRequest{
+		Req: req,
+	}, nil
+}
+
+func encodeChangePropertiesResponse(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.ChangePropertiesResponse)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) ChangeProperties(ctx context1.Context, req *pb.ChangePropertiesRequest) (*pb.ChangePropertiesReply, error) {
+	_, rep, err := g.changeProperties.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.ChangePropertiesReply), nil
+}

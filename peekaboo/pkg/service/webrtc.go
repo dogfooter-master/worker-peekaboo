@@ -26,19 +26,19 @@ func init() {
 	}
 }
 
-func (o *WebRTC) CreateDataChannel() (err error){
+func (o *WebRTC) CreateDataChannel(label string) (err error){
 	o.PeerConnection, err = webrtc.NewPeerConnection(WebRTCConfig)
 	if err != nil {
 		panic(err)
 	}
 
-	o.DataChannel, err = o.PeerConnection.CreateDataChannel("peekaboo", nil)
+	o.DataChannel, err = o.PeerConnection.CreateDataChannel(label, nil)
 	if err != nil {
 		panic(err)
 	}
 
 	o.DataChannel.OnOpen(func() {
-		fmt.Printf("Data channel '%s'-'%d'-'%v' open. Random messages will now be sent to any connected DataChannels every 5 seconds\n", o.DataChannel.Label(), o.DataChannel.ID(), o.DataChannel.ReadyState())
+		fmt.Printf("Data channel '%s'-'%d'-'%v' !!!\n", o.DataChannel.Label(), o.DataChannel.ID(), o.DataChannel.ReadyState())
 
 		//for range time.NewTicker(5 * time.Second).C {
 		//	message := signal.RandSeq(15)

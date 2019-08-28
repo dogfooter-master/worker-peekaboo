@@ -60,3 +60,10 @@ func (l loggingMiddleware) ChangeFps(ctx context.Context, req *pb.ChangeFpsReque
 	}()
 	return l.next.ChangeFps(ctx, req)
 }
+
+func (l loggingMiddleware) ChangeProperties(ctx context.Context, req *pb.ChangePropertiesRequest) (res *pb.ChangePropertiesReply, err error) {
+	defer func() {
+		l.logger.Log("method", "ChangeProperties", "req", req, "res", res, "err", err)
+	}()
+	return l.next.ChangeProperties(ctx, req)
+}

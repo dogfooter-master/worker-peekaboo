@@ -10,6 +10,7 @@ service Peekaboo {
     rpc EndStreaming (EndStreamingRequest) returns (EndStreamingReply);
     rpc ChangeQuality (ChangeQualityRequest) returns (ChangeQualityReply);
     rpc ChangeFps (ChangeFpsRequest) returns (ChangeFpsReply);
+    rpc ChangeProperties (ChangePropertiesRequest) returns (ChangePropertiesReply);
 }
 
 message PikabuRequest {
@@ -36,14 +37,18 @@ message RefreshWindowsReply {
 
 message StartStreamingRequest {
     int32 handle = 1;
+    string label = 2;
+    int32 quality = 3;
+    int32 fps = 4;
 }
 
 message StartStreamingReply {
-    int32 handle = 1;
+    string label = 1;
 }
 
 message EndStreamingRequest {
     int32 handle = 1;
+    string label = 2;
 }
 
 message EndStreamingReply {
@@ -52,6 +57,7 @@ message EndStreamingReply {
 
 message ChangeQualityRequest {
     int32 quality = 1;
+    string label = 2;
 }
 
 message ChangeQualityReply {
@@ -60,9 +66,21 @@ message ChangeQualityReply {
 
 message ChangeFpsRequest {
     int32 fps = 1;
+    string label = 2;
 }
 
 message ChangeFpsReply {
     int32 fps = 1;
+}
+
+message ChangePropertiesRequest {
+    int32 handle = 1;
+    string label = 2;
+    int32 quality = 3;
+    int32 fps = 4;
+}
+
+message ChangePropertiesReply {
+    string label = 1;
 }
 
