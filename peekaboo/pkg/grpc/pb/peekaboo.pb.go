@@ -8,8 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -110,24 +108,490 @@ func (m *PikabuReply) GetCategory() string {
 	return ""
 }
 
+type RefreshWindowsRequest struct {
+	Keyword              string   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RefreshWindowsRequest) Reset()         { *m = RefreshWindowsRequest{} }
+func (m *RefreshWindowsRequest) String() string { return proto.CompactTextString(m) }
+func (*RefreshWindowsRequest) ProtoMessage()    {}
+func (*RefreshWindowsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{2}
+}
+
+func (m *RefreshWindowsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RefreshWindowsRequest.Unmarshal(m, b)
+}
+func (m *RefreshWindowsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RefreshWindowsRequest.Marshal(b, m, deterministic)
+}
+func (m *RefreshWindowsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RefreshWindowsRequest.Merge(m, src)
+}
+func (m *RefreshWindowsRequest) XXX_Size() int {
+	return xxx_messageInfo_RefreshWindowsRequest.Size(m)
+}
+func (m *RefreshWindowsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RefreshWindowsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RefreshWindowsRequest proto.InternalMessageInfo
+
+func (m *RefreshWindowsRequest) GetKeyword() string {
+	if m != nil {
+		return m.Keyword
+	}
+	return ""
+}
+
+type RefreshWindowsReply struct {
+	WindowList           []*RefreshWindowsReply_Window `protobuf:"bytes,1,rep,name=window_list,json=windowList,proto3" json:"window_list,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                      `json:"-"`
+	XXX_unrecognized     []byte                        `json:"-"`
+	XXX_sizecache        int32                         `json:"-"`
+}
+
+func (m *RefreshWindowsReply) Reset()         { *m = RefreshWindowsReply{} }
+func (m *RefreshWindowsReply) String() string { return proto.CompactTextString(m) }
+func (*RefreshWindowsReply) ProtoMessage()    {}
+func (*RefreshWindowsReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{3}
+}
+
+func (m *RefreshWindowsReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RefreshWindowsReply.Unmarshal(m, b)
+}
+func (m *RefreshWindowsReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RefreshWindowsReply.Marshal(b, m, deterministic)
+}
+func (m *RefreshWindowsReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RefreshWindowsReply.Merge(m, src)
+}
+func (m *RefreshWindowsReply) XXX_Size() int {
+	return xxx_messageInfo_RefreshWindowsReply.Size(m)
+}
+func (m *RefreshWindowsReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_RefreshWindowsReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RefreshWindowsReply proto.InternalMessageInfo
+
+func (m *RefreshWindowsReply) GetWindowList() []*RefreshWindowsReply_Window {
+	if m != nil {
+		return m.WindowList
+	}
+	return nil
+}
+
+type RefreshWindowsReply_Window struct {
+	Title                string   `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Handle               int32    `protobuf:"varint,2,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RefreshWindowsReply_Window) Reset()         { *m = RefreshWindowsReply_Window{} }
+func (m *RefreshWindowsReply_Window) String() string { return proto.CompactTextString(m) }
+func (*RefreshWindowsReply_Window) ProtoMessage()    {}
+func (*RefreshWindowsReply_Window) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{3, 0}
+}
+
+func (m *RefreshWindowsReply_Window) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RefreshWindowsReply_Window.Unmarshal(m, b)
+}
+func (m *RefreshWindowsReply_Window) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RefreshWindowsReply_Window.Marshal(b, m, deterministic)
+}
+func (m *RefreshWindowsReply_Window) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RefreshWindowsReply_Window.Merge(m, src)
+}
+func (m *RefreshWindowsReply_Window) XXX_Size() int {
+	return xxx_messageInfo_RefreshWindowsReply_Window.Size(m)
+}
+func (m *RefreshWindowsReply_Window) XXX_DiscardUnknown() {
+	xxx_messageInfo_RefreshWindowsReply_Window.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RefreshWindowsReply_Window proto.InternalMessageInfo
+
+func (m *RefreshWindowsReply_Window) GetTitle() string {
+	if m != nil {
+		return m.Title
+	}
+	return ""
+}
+
+func (m *RefreshWindowsReply_Window) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type StartStreamingRequest struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StartStreamingRequest) Reset()         { *m = StartStreamingRequest{} }
+func (m *StartStreamingRequest) String() string { return proto.CompactTextString(m) }
+func (*StartStreamingRequest) ProtoMessage()    {}
+func (*StartStreamingRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{4}
+}
+
+func (m *StartStreamingRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StartStreamingRequest.Unmarshal(m, b)
+}
+func (m *StartStreamingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StartStreamingRequest.Marshal(b, m, deterministic)
+}
+func (m *StartStreamingRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StartStreamingRequest.Merge(m, src)
+}
+func (m *StartStreamingRequest) XXX_Size() int {
+	return xxx_messageInfo_StartStreamingRequest.Size(m)
+}
+func (m *StartStreamingRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_StartStreamingRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StartStreamingRequest proto.InternalMessageInfo
+
+func (m *StartStreamingRequest) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type StartStreamingReply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StartStreamingReply) Reset()         { *m = StartStreamingReply{} }
+func (m *StartStreamingReply) String() string { return proto.CompactTextString(m) }
+func (*StartStreamingReply) ProtoMessage()    {}
+func (*StartStreamingReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{5}
+}
+
+func (m *StartStreamingReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StartStreamingReply.Unmarshal(m, b)
+}
+func (m *StartStreamingReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StartStreamingReply.Marshal(b, m, deterministic)
+}
+func (m *StartStreamingReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StartStreamingReply.Merge(m, src)
+}
+func (m *StartStreamingReply) XXX_Size() int {
+	return xxx_messageInfo_StartStreamingReply.Size(m)
+}
+func (m *StartStreamingReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_StartStreamingReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StartStreamingReply proto.InternalMessageInfo
+
+func (m *StartStreamingReply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type EndStreamingRequest struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EndStreamingRequest) Reset()         { *m = EndStreamingRequest{} }
+func (m *EndStreamingRequest) String() string { return proto.CompactTextString(m) }
+func (*EndStreamingRequest) ProtoMessage()    {}
+func (*EndStreamingRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{6}
+}
+
+func (m *EndStreamingRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EndStreamingRequest.Unmarshal(m, b)
+}
+func (m *EndStreamingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EndStreamingRequest.Marshal(b, m, deterministic)
+}
+func (m *EndStreamingRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EndStreamingRequest.Merge(m, src)
+}
+func (m *EndStreamingRequest) XXX_Size() int {
+	return xxx_messageInfo_EndStreamingRequest.Size(m)
+}
+func (m *EndStreamingRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_EndStreamingRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EndStreamingRequest proto.InternalMessageInfo
+
+func (m *EndStreamingRequest) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type EndStreamingReply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EndStreamingReply) Reset()         { *m = EndStreamingReply{} }
+func (m *EndStreamingReply) String() string { return proto.CompactTextString(m) }
+func (*EndStreamingReply) ProtoMessage()    {}
+func (*EndStreamingReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{7}
+}
+
+func (m *EndStreamingReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EndStreamingReply.Unmarshal(m, b)
+}
+func (m *EndStreamingReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EndStreamingReply.Marshal(b, m, deterministic)
+}
+func (m *EndStreamingReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EndStreamingReply.Merge(m, src)
+}
+func (m *EndStreamingReply) XXX_Size() int {
+	return xxx_messageInfo_EndStreamingReply.Size(m)
+}
+func (m *EndStreamingReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_EndStreamingReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EndStreamingReply proto.InternalMessageInfo
+
+func (m *EndStreamingReply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type ChangeQualityRequest struct {
+	Quality              int32    `protobuf:"varint,1,opt,name=quality,proto3" json:"quality,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangeQualityRequest) Reset()         { *m = ChangeQualityRequest{} }
+func (m *ChangeQualityRequest) String() string { return proto.CompactTextString(m) }
+func (*ChangeQualityRequest) ProtoMessage()    {}
+func (*ChangeQualityRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{8}
+}
+
+func (m *ChangeQualityRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangeQualityRequest.Unmarshal(m, b)
+}
+func (m *ChangeQualityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangeQualityRequest.Marshal(b, m, deterministic)
+}
+func (m *ChangeQualityRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeQualityRequest.Merge(m, src)
+}
+func (m *ChangeQualityRequest) XXX_Size() int {
+	return xxx_messageInfo_ChangeQualityRequest.Size(m)
+}
+func (m *ChangeQualityRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeQualityRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeQualityRequest proto.InternalMessageInfo
+
+func (m *ChangeQualityRequest) GetQuality() int32 {
+	if m != nil {
+		return m.Quality
+	}
+	return 0
+}
+
+type ChangeQualityReply struct {
+	Quality              int32    `protobuf:"varint,1,opt,name=quality,proto3" json:"quality,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangeQualityReply) Reset()         { *m = ChangeQualityReply{} }
+func (m *ChangeQualityReply) String() string { return proto.CompactTextString(m) }
+func (*ChangeQualityReply) ProtoMessage()    {}
+func (*ChangeQualityReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{9}
+}
+
+func (m *ChangeQualityReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangeQualityReply.Unmarshal(m, b)
+}
+func (m *ChangeQualityReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangeQualityReply.Marshal(b, m, deterministic)
+}
+func (m *ChangeQualityReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeQualityReply.Merge(m, src)
+}
+func (m *ChangeQualityReply) XXX_Size() int {
+	return xxx_messageInfo_ChangeQualityReply.Size(m)
+}
+func (m *ChangeQualityReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeQualityReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeQualityReply proto.InternalMessageInfo
+
+func (m *ChangeQualityReply) GetQuality() int32 {
+	if m != nil {
+		return m.Quality
+	}
+	return 0
+}
+
+type ChangeFpsRequest struct {
+	Fps                  int32    `protobuf:"varint,1,opt,name=fps,proto3" json:"fps,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangeFpsRequest) Reset()         { *m = ChangeFpsRequest{} }
+func (m *ChangeFpsRequest) String() string { return proto.CompactTextString(m) }
+func (*ChangeFpsRequest) ProtoMessage()    {}
+func (*ChangeFpsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{10}
+}
+
+func (m *ChangeFpsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangeFpsRequest.Unmarshal(m, b)
+}
+func (m *ChangeFpsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangeFpsRequest.Marshal(b, m, deterministic)
+}
+func (m *ChangeFpsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeFpsRequest.Merge(m, src)
+}
+func (m *ChangeFpsRequest) XXX_Size() int {
+	return xxx_messageInfo_ChangeFpsRequest.Size(m)
+}
+func (m *ChangeFpsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeFpsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeFpsRequest proto.InternalMessageInfo
+
+func (m *ChangeFpsRequest) GetFps() int32 {
+	if m != nil {
+		return m.Fps
+	}
+	return 0
+}
+
+type ChangeFpsReply struct {
+	Fps                  int32    `protobuf:"varint,1,opt,name=fps,proto3" json:"fps,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChangeFpsReply) Reset()         { *m = ChangeFpsReply{} }
+func (m *ChangeFpsReply) String() string { return proto.CompactTextString(m) }
+func (*ChangeFpsReply) ProtoMessage()    {}
+func (*ChangeFpsReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{11}
+}
+
+func (m *ChangeFpsReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChangeFpsReply.Unmarshal(m, b)
+}
+func (m *ChangeFpsReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChangeFpsReply.Marshal(b, m, deterministic)
+}
+func (m *ChangeFpsReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeFpsReply.Merge(m, src)
+}
+func (m *ChangeFpsReply) XXX_Size() int {
+	return xxx_messageInfo_ChangeFpsReply.Size(m)
+}
+func (m *ChangeFpsReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeFpsReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeFpsReply proto.InternalMessageInfo
+
+func (m *ChangeFpsReply) GetFps() int32 {
+	if m != nil {
+		return m.Fps
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*PikabuRequest)(nil), "pb.PikabuRequest")
 	proto.RegisterType((*PikabuReply)(nil), "pb.PikabuReply")
+	proto.RegisterType((*RefreshWindowsRequest)(nil), "pb.RefreshWindowsRequest")
+	proto.RegisterType((*RefreshWindowsReply)(nil), "pb.RefreshWindowsReply")
+	proto.RegisterType((*RefreshWindowsReply_Window)(nil), "pb.RefreshWindowsReply.Window")
+	proto.RegisterType((*StartStreamingRequest)(nil), "pb.StartStreamingRequest")
+	proto.RegisterType((*StartStreamingReply)(nil), "pb.StartStreamingReply")
+	proto.RegisterType((*EndStreamingRequest)(nil), "pb.EndStreamingRequest")
+	proto.RegisterType((*EndStreamingReply)(nil), "pb.EndStreamingReply")
+	proto.RegisterType((*ChangeQualityRequest)(nil), "pb.ChangeQualityRequest")
+	proto.RegisterType((*ChangeQualityReply)(nil), "pb.ChangeQualityReply")
+	proto.RegisterType((*ChangeFpsRequest)(nil), "pb.ChangeFpsRequest")
+	proto.RegisterType((*ChangeFpsReply)(nil), "pb.ChangeFpsReply")
 }
 
 func init() { proto.RegisterFile("peekaboo.proto", fileDescriptor_4e9296e1ca7b7ddb) }
 
 var fileDescriptor_4e9296e1ca7b7ddb = []byte{
-	// 144 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2b, 0x48, 0x4d, 0xcd,
-	0x4e, 0x4c, 0xca, 0xcf, 0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x52, 0x72,
-	0xe5, 0xe2, 0x0d, 0xc8, 0xcc, 0x4e, 0x4c, 0x2a, 0x0d, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e, 0x11,
-	0x92, 0xe2, 0xe2, 0x48, 0x4e, 0x2c, 0x49, 0x4d, 0xcf, 0x2f, 0xaa, 0x94, 0x60, 0x54, 0x60, 0xd4,
-	0xe0, 0x0c, 0x82, 0xf3, 0x85, 0x24, 0xb8, 0xd8, 0xb3, 0x53, 0x2b, 0xcb, 0xf3, 0x8b, 0x52, 0x24,
-	0xb8, 0xc0, 0x52, 0x30, 0xae, 0x92, 0x26, 0x17, 0x37, 0xcc, 0x98, 0x82, 0x9c, 0x4a, 0x7c, 0x86,
-	0x18, 0x59, 0x70, 0x71, 0x04, 0x40, 0xdd, 0x21, 0xa4, 0xc3, 0xc5, 0x06, 0xd1, 0x26, 0x24, 0xa8,
-	0x57, 0x90, 0xa4, 0x87, 0xe2, 0x12, 0x29, 0x7e, 0x64, 0xa1, 0x82, 0x9c, 0xca, 0x24, 0x36, 0xb0,
-	0xb3, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x10, 0x81, 0x6c, 0xd2, 0xc8, 0x00, 0x00, 0x00,
+	// 426 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x94, 0x4f, 0x6f, 0xa2, 0x40,
+	0x18, 0xc6, 0x83, 0x46, 0x56, 0x5f, 0x57, 0x57, 0xc7, 0x3f, 0xcb, 0x72, 0xd8, 0x18, 0xb2, 0x07,
+	0x37, 0xbb, 0xa5, 0xad, 0x4d, 0x7b, 0x6c, 0xd3, 0xb4, 0xf6, 0xd4, 0x83, 0xc5, 0x43, 0x8f, 0xcd,
+	0x50, 0x46, 0x25, 0x52, 0x18, 0x61, 0x8c, 0xe1, 0x4b, 0xf4, 0x23, 0x37, 0xcd, 0x30, 0xa0, 0x80,
+	0x68, 0x7a, 0xf3, 0x79, 0xe7, 0x79, 0x7e, 0x13, 0xe6, 0x79, 0x23, 0x34, 0x29, 0x21, 0x4b, 0x6c,
+	0x7a, 0x9e, 0x4e, 0x7d, 0x8f, 0x79, 0xa8, 0x44, 0x4d, 0x6d, 0x0c, 0x8d, 0x89, 0xbd, 0xc4, 0xe6,
+	0xda, 0x20, 0xab, 0x35, 0x09, 0x18, 0x52, 0xa1, 0xfa, 0x8a, 0x19, 0x99, 0x7b, 0x7e, 0xa8, 0x48,
+	0x03, 0x69, 0x58, 0x33, 0xb6, 0x1a, 0x29, 0xf0, 0x6d, 0x49, 0xc2, 0x8d, 0xe7, 0x5b, 0x0a, 0x44,
+	0x47, 0x89, 0xd4, 0xfe, 0x42, 0x3d, 0xc1, 0x50, 0x27, 0x3c, 0x06, 0xd1, 0xce, 0xa1, 0x67, 0x90,
+	0x99, 0x4f, 0x82, 0xc5, 0xb3, 0xed, 0x5a, 0xde, 0x26, 0x48, 0x6e, 0x4e, 0xd1, 0xa5, 0x2c, 0xfd,
+	0x5d, 0x82, 0x4e, 0x3e, 0xc3, 0xaf, 0xb9, 0x81, 0xfa, 0x26, 0xd2, 0x2f, 0x8e, 0x1d, 0x30, 0x45,
+	0x1a, 0x94, 0x87, 0xf5, 0xd1, 0x6f, 0x9d, 0x9a, 0x7a, 0x81, 0x5b, 0x17, 0xc2, 0x00, 0x11, 0x79,
+	0xb4, 0x03, 0xa6, 0x5e, 0x81, 0x2c, 0xa6, 0xa8, 0x0b, 0x15, 0x66, 0x33, 0x87, 0xc4, 0x57, 0x0b,
+	0x81, 0xfa, 0x20, 0x2f, 0xb0, 0x6b, 0x39, 0x44, 0x29, 0x0d, 0xa4, 0x61, 0xc5, 0x88, 0x95, 0x76,
+	0x0a, 0xbd, 0x29, 0xc3, 0x3e, 0x9b, 0x32, 0x9f, 0xe0, 0x37, 0xdb, 0x9d, 0x27, 0xdf, 0xb0, 0x0b,
+	0x48, 0x99, 0xc0, 0x09, 0x74, 0xf2, 0x01, 0xfe, 0x01, 0x47, 0xec, 0x63, 0xd7, 0xfa, 0x32, 0xfd,
+	0x1f, 0xb4, 0xb3, 0xf6, 0x63, 0xec, 0x33, 0xe8, 0xde, 0x2d, 0xb0, 0x3b, 0x27, 0x4f, 0x6b, 0xec,
+	0xd8, 0x2c, 0x4c, 0x3d, 0xff, 0x4a, 0x4c, 0xe2, 0x40, 0x22, 0x35, 0x1d, 0x50, 0x2e, 0xc1, 0xf9,
+	0x87, 0xfd, 0x7f, 0xa0, 0x25, 0xfc, 0x0f, 0x74, 0x5b, 0x6e, 0x0b, 0xca, 0x33, 0x1a, 0xc4, 0x4e,
+	0xfe, 0x53, 0xd3, 0xa0, 0x99, 0x72, 0x71, 0xe2, 0x9e, 0x67, 0xf4, 0x51, 0x82, 0xea, 0x24, 0x5e,
+	0x5a, 0xf4, 0x1f, 0x64, 0xb1, 0x63, 0xa8, 0xcd, 0x2b, 0xce, 0xac, 0xad, 0xfa, 0x23, 0x3d, 0xe2,
+	0xb0, 0x7b, 0x68, 0x66, 0x97, 0x00, 0xfd, 0x2a, 0x5a, 0x0c, 0x91, 0xfe, 0x79, 0x60, 0x67, 0x38,
+	0x25, 0xdb, 0x9b, 0xa0, 0x14, 0x96, 0x2f, 0x28, 0x45, 0x35, 0x5f, 0xc3, 0xf7, 0x74, 0x3f, 0x28,
+	0x32, 0x16, 0x14, 0xac, 0xf6, 0xf6, 0x0f, 0x78, 0xfe, 0x16, 0x1a, 0x99, 0x02, 0x90, 0xc2, 0x7d,
+	0x45, 0x2d, 0xaa, 0xfd, 0x82, 0x13, 0x8e, 0xb8, 0x84, 0xda, 0xf6, 0xb5, 0x51, 0x77, 0x67, 0xda,
+	0x55, 0xa4, 0xa2, 0xdc, 0x94, 0x3a, 0xa1, 0x29, 0x47, 0xff, 0x14, 0x17, 0x9f, 0x01, 0x00, 0x00,
+	0xff, 0xff, 0xc7, 0x4a, 0x1d, 0xec, 0x3b, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -143,6 +607,11 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PeekabooClient interface {
 	Pikabu(ctx context.Context, in *PikabuRequest, opts ...grpc.CallOption) (*PikabuReply, error)
+	RefreshWindows(ctx context.Context, in *RefreshWindowsRequest, opts ...grpc.CallOption) (*RefreshWindowsReply, error)
+	StartStreaming(ctx context.Context, in *StartStreamingRequest, opts ...grpc.CallOption) (*StartStreamingReply, error)
+	EndStreaming(ctx context.Context, in *EndStreamingRequest, opts ...grpc.CallOption) (*EndStreamingReply, error)
+	ChangeQuality(ctx context.Context, in *ChangeQualityRequest, opts ...grpc.CallOption) (*ChangeQualityReply, error)
+	ChangeFps(ctx context.Context, in *ChangeFpsRequest, opts ...grpc.CallOption) (*ChangeFpsReply, error)
 }
 
 type peekabooClient struct {
@@ -162,17 +631,59 @@ func (c *peekabooClient) Pikabu(ctx context.Context, in *PikabuRequest, opts ...
 	return out, nil
 }
 
+func (c *peekabooClient) RefreshWindows(ctx context.Context, in *RefreshWindowsRequest, opts ...grpc.CallOption) (*RefreshWindowsReply, error) {
+	out := new(RefreshWindowsReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/RefreshWindows", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) StartStreaming(ctx context.Context, in *StartStreamingRequest, opts ...grpc.CallOption) (*StartStreamingReply, error) {
+	out := new(StartStreamingReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/StartStreaming", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) EndStreaming(ctx context.Context, in *EndStreamingRequest, opts ...grpc.CallOption) (*EndStreamingReply, error) {
+	out := new(EndStreamingReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/EndStreaming", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) ChangeQuality(ctx context.Context, in *ChangeQualityRequest, opts ...grpc.CallOption) (*ChangeQualityReply, error) {
+	out := new(ChangeQualityReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/ChangeQuality", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) ChangeFps(ctx context.Context, in *ChangeFpsRequest, opts ...grpc.CallOption) (*ChangeFpsReply, error) {
+	out := new(ChangeFpsReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/ChangeFps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PeekabooServer is the server API for Peekaboo service.
 type PeekabooServer interface {
 	Pikabu(context.Context, *PikabuRequest) (*PikabuReply, error)
-}
-
-// UnimplementedPeekabooServer can be embedded to have forward compatible implementations.
-type UnimplementedPeekabooServer struct {
-}
-
-func (*UnimplementedPeekabooServer) Pikabu(ctx context.Context, req *PikabuRequest) (*PikabuReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Pikabu not implemented")
+	RefreshWindows(context.Context, *RefreshWindowsRequest) (*RefreshWindowsReply, error)
+	StartStreaming(context.Context, *StartStreamingRequest) (*StartStreamingReply, error)
+	EndStreaming(context.Context, *EndStreamingRequest) (*EndStreamingReply, error)
+	ChangeQuality(context.Context, *ChangeQualityRequest) (*ChangeQualityReply, error)
+	ChangeFps(context.Context, *ChangeFpsRequest) (*ChangeFpsReply, error)
 }
 
 func RegisterPeekabooServer(s *grpc.Server, srv PeekabooServer) {
@@ -197,6 +708,96 @@ func _Peekaboo_Pikabu_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Peekaboo_RefreshWindows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshWindowsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).RefreshWindows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/RefreshWindows",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).RefreshWindows(ctx, req.(*RefreshWindowsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_StartStreaming_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartStreamingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).StartStreaming(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/StartStreaming",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).StartStreaming(ctx, req.(*StartStreamingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_EndStreaming_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EndStreamingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).EndStreaming(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/EndStreaming",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).EndStreaming(ctx, req.(*EndStreamingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_ChangeQuality_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeQualityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).ChangeQuality(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/ChangeQuality",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).ChangeQuality(ctx, req.(*ChangeQualityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_ChangeFps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeFpsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).ChangeFps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/ChangeFps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).ChangeFps(ctx, req.(*ChangeFpsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Peekaboo_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.Peekaboo",
 	HandlerType: (*PeekabooServer)(nil),
@@ -204,6 +805,26 @@ var _Peekaboo_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Pikabu",
 			Handler:    _Peekaboo_Pikabu_Handler,
+		},
+		{
+			MethodName: "RefreshWindows",
+			Handler:    _Peekaboo_RefreshWindows_Handler,
+		},
+		{
+			MethodName: "StartStreaming",
+			Handler:    _Peekaboo_StartStreaming_Handler,
+		},
+		{
+			MethodName: "EndStreaming",
+			Handler:    _Peekaboo_EndStreaming_Handler,
+		},
+		{
+			MethodName: "ChangeQuality",
+			Handler:    _Peekaboo_ChangeQuality_Handler,
+		},
+		{
+			MethodName: "ChangeFps",
+			Handler:    _Peekaboo_ChangeFps_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

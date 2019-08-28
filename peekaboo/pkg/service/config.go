@@ -7,6 +7,7 @@ import (
 )
 
 type HostsConfig struct {
+	HttpHosts string `mapstructure:"http_hosts"`
 	GrpcHosts string `mapstructure:"grpc_hosts"`
 }
 type ServerConfig struct {
@@ -42,6 +43,15 @@ func LoadConfig() (err error) {
 		return
 	}
 	return
+}
+func GetConfigServerHttp() string {
+	if strings.Contains(serverHostConfig.Pikabu.HttpHosts, "PORT") {
+		port := "17090"
+		hosts := strings.Replace(serverHostConfig.Pikabu.HttpHosts, "PORT", port, 1)
+		return hosts
+	} else {
+		return serverHostConfig.Pikabu.HttpHosts
+	}
 }
 func GetConfigServerGrpc() string {
 	if strings.Contains(serverHostConfig.Pikabu.GrpcHosts, "PORT") {

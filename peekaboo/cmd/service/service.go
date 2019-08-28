@@ -45,6 +45,7 @@ var appdashAddr = fs.String("appdash-addr", "", "Enable Appdash tracing via an A
 
 func Run(serviceName string) {
 	fs.Parse(os.Args[1:])
+	*httpAddr = service.GetConfigServerHttp()
 	*grpcAddr = service.GetConfigServerGrpc()
 
 	if len(serviceName) != 0 {

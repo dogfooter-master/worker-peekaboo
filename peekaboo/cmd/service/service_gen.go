@@ -15,20 +15,34 @@ import (
 
 func createService(endpoints endpoint.Endpoints) (g *group.Group) {
 	g = &group.Group{}
-	//initHttpHandler(endpoints, g)
+	initHttpHandler(endpoints, g)
 	initGRPCHandler(endpoints, g)
 	return g
 }
 func defaultHttpOptions(logger log.Logger, tracer opentracinggo.Tracer) map[string][]http.ServerOption {
-	options := map[string][]http.ServerOption{"Pikabu": {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "Pikabu", logger))}}
+	options := map[string][]http.ServerOption{
+		"ChangeFps":      {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "ChangeFps", logger))},
+		"ChangeQuality":  {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "ChangeQuality", logger))},
+		"EndStreaming":   {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "EndStreaming", logger))},
+		"Pikabu":         {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "Pikabu", logger))},
+		"RefreshWindows": {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "RefreshWindows", logger))},
+		"StartStreaming": {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "StartStreaming", logger))},
+	}
 	return options
 }
 func defaultGRPCOptions(logger log.Logger, tracer opentracinggo.Tracer) map[string][]grpc.ServerOption {
-	options := map[string][]grpc.ServerOption{"Pikabu": {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "Pikabu", logger))}}
+	options := map[string][]grpc.ServerOption{
+		"ChangeFps":      {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "ChangeFps", logger))},
+		"ChangeQuality":  {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "ChangeQuality", logger))},
+		"EndStreaming":   {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "EndStreaming", logger))},
+		"Pikabu":         {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "Pikabu", logger))},
+		"RefreshWindows": {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "RefreshWindows", logger))},
+		"StartStreaming": {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "StartStreaming", logger))},
+	}
 	return options
 }
 func addEndpointMiddlewareToAllMethods(mw map[string][]endpoint1.Middleware, m endpoint1.Middleware) {
-	methods := []string{"Pikabu"}
+	methods := []string{"Pikabu", "RefreshWindows", "StartStreaming", "EndStreaming", "ChangeQuality", "ChangeFps"}
 	for _, v := range methods {
 		mw[v] = append(mw[v], m)
 	}

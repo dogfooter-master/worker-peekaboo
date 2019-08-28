@@ -5,7 +5,6 @@ import (
 	"github.com/TheTitanrain/w32"
 	"github.com/hnakamur/w32syscall"
 	"image"
-	"image/png"
 	"math"
 	"os"
 	"reflect"
@@ -20,7 +19,10 @@ type PeekabooWin struct {
 	SideHWNDList  []w32.HWND
 	ParentHWNDMap map[w32.HWND]w32.HWND
 	SideHWNDMap   map[w32.HWND]w32.HWND
+	TitleMap      map[w32.HWND]string
 }
+
+var peekabooWindowInfo PeekabooWin
 
 func (p *PeekabooWin) CallbackMomoChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32.LRESULT {
 	s := w32.GetWindowText(hWnd)
@@ -38,6 +40,11 @@ func (p *PeekabooWin) CallbackMomoChildProcess(hWnd w32.HWND, lParam w32.LPARAM)
 				p.ParentHWNDMap = make(map[w32.HWND]w32.HWND)
 			}
 			p.ParentHWNDMap[hWnd] = w32.HWND(lParam)
+
+			if p.TitleMap == nil {
+				p.TitleMap = make(map[w32.HWND]string)
+			}
+			p.TitleMap[hWnd] = w32.GetWindowText(w32.HWND(lParam))
 		}
 	}
 	return 1
@@ -58,11 +65,17 @@ func (p *PeekabooWin) CallbackMemuChildProcess(hWnd w32.HWND, lParam w32.LPARAM)
 				p.ParentHWNDMap = make(map[w32.HWND]w32.HWND)
 			}
 			p.ParentHWNDMap[hWnd] = w32.HWND(lParam)
+
+			if p.TitleMap == nil {
+				p.TitleMap = make(map[w32.HWND]string)
+			}
+			p.TitleMap[hWnd] = w32.GetWindowText(w32.HWND(lParam))
 		}
 	}
 	return 1
 }
 func (p *PeekabooWin) FindWindowWildcard() {
+	//defer timeTrack(time.Now(), GetFunctionName())
 	err := w32syscall.EnumWindows(func(hWnd syscall.Handle, lParam uintptr) bool {
 		var h w32.HWND
 		h = w32.HWND(hWnd)
@@ -78,11 +91,18 @@ func (p *PeekabooWin) FindWindowWildcard() {
 			//fmt.Fprintf(os.Stderr, "DEBUG: %v, %v, %v\n", title, match, *rect)
 			//fmt.Fprintf(os.Stderr, "DEBUG: %v, %v\n", GetConfigSizeWidth(), GetConfigSizeHeight())
 			//fmt.Fprintf(os.Stderr, "DEBUG: (%v, %v)\n", math.Abs(float64(rect.Right-rect.Left)), float64(GetConfigSizeWidth()+38))
+
 			if math.Abs(float64(rect.Right-rect.Left)) == float64(GetConfigSizeWidth()+38) {
 				// MOMO
 				w32.EnumChildWindows(h, p.CallbackMomoChildProcess, w32.LPARAM(h))
 			} else if math.Abs(float64(rect.Right-rect.Left)) == float64(GetConfigSizeWidth()+4) {
 				fmt.Println("Nox child:", title, "# hWnd:", h)
+
+				if p.TitleMap == nil {
+					p.TitleMap = make(map[w32.HWND]string)
+				}
+				p.TitleMap[h] = title
+
 				p.HWNDList = append(p.HWNDList, h)
 			} else if math.Abs(float64(rect.Right-rect.Left)) == float64(GetConfigSizeWidth()+40) {
 				w32.EnumChildWindows(h, p.CallbackMemuChildProcess, w32.LPARAM(h))
@@ -129,8 +149,9 @@ func (p *PeekabooWin) FindWindowWildcard() {
 		}
 	}
 }
-func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) {
+func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 
+	//defer timeTrack(time.Now(), GetFunctionName())
 	var mod = syscall.NewLazyDLL("user32.dll")
 	//var proc = mod.NewProc("MessageBoxW")
 	//var MB_YESNOCANCEL = 0x00000003
@@ -146,7 +167,7 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) {
 	rect := w32.GetClientRect(hWnd)
 	w := uint(rect.Right - rect.Left)
 	h := uint(rect.Bottom - rect.Top)
-	fmt.Println("#", w, "#", h)
+	//fmt.Println("#", w, "#", h)
 
 	hDc, _, _ := GetWindowDC.Call(uintptr(hWnd))
 	if hDc == 0 {
@@ -206,19 +227,23 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) {
 
 	imageBytes := make([]byte, len(slice))
 
+	//defer timeTrack(time.Now(), GetFunctionName()+"-1")
+
 	for i := 0; i < len(imageBytes); i += 4 {
 		imageBytes[i], imageBytes[i+2], imageBytes[i+1], imageBytes[i+3] = slice[i+2], slice[i], slice[i+1], slice[i+3]
 	}
 
-	img := &image.RGBA{imageBytes, int(4 * w), image.Rect(0, 0, int(w), int(h))}
-	f, err := os.Create("img.jpg")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
+	img = &image.RGBA{imageBytes, int(4 * w), image.Rect(0, 0, int(w), int(h))}
 
-	_ = png.Encode(f, img)
+	//f, err := os.Create("img.jpg")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//defer f.Close()
+	//
+	//_ = jpeg.Encode(f, img, nil)
 
+	return
 
 	//hBitmap := w32.CreateCompatibleBitmap(hdcSrc, w, h)
 	//hOld := w32.SelectObject(hdcDest, w32.HGDIOBJ(hBitmap))

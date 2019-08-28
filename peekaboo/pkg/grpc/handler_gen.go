@@ -9,9 +9,21 @@ import (
 
 // NewGRPCServer makes a set of endpoints available as a gRPC AddServer
 type grpcServer struct {
-	pikabu grpc.Handler
+	pikabu         grpc.Handler
+	refreshWindows grpc.Handler
+	startStreaming grpc.Handler
+	endStreaming   grpc.Handler
+	changeQuality  grpc.Handler
+	changeFps      grpc.Handler
 }
 
 func NewGRPCServer(endpoints endpoint.Endpoints, options map[string][]grpc.ServerOption) pb.PeekabooServer {
-	return &grpcServer{pikabu: makePikabuHandler(endpoints, options["Pikabu"])}
+	return &grpcServer{
+		changeFps:      makeChangeFpsHandler(endpoints, options["ChangeFps"]),
+		changeQuality:  makeChangeQualityHandler(endpoints, options["ChangeQuality"]),
+		endStreaming:   makeEndStreamingHandler(endpoints, options["EndStreaming"]),
+		pikabu:         makePikabuHandler(endpoints, options["Pikabu"]),
+		refreshWindows: makeRefreshWindowsHandler(endpoints, options["RefreshWindows"]),
+		startStreaming: makeStartStreamingHandler(endpoints, options["StartStreaming"]),
+	}
 }

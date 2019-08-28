@@ -1,9 +1,7 @@
 {
   "server": {
     "pikabu": {
-      "grpc_hosts": ":PORT"
-    },
-    "signaling": {
+      "http_hosts": ":PORT",
       "grpc_hosts": ":PORT"
     }
   },

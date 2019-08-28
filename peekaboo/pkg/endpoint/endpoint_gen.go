@@ -10,15 +10,42 @@ import (
 // meant to be used as a helper struct, to collect all of the endpoints into a
 // single parameter.
 type Endpoints struct {
-	PikabuEndpoint endpoint.Endpoint
+	PikabuEndpoint         endpoint.Endpoint
+	RefreshWindowsEndpoint endpoint.Endpoint
+	StartStreamingEndpoint endpoint.Endpoint
+	EndStreamingEndpoint   endpoint.Endpoint
+	ChangeQualityEndpoint  endpoint.Endpoint
+	ChangeFpsEndpoint      endpoint.Endpoint
 }
 
 // New returns a Endpoints struct that wraps the provided service, and wires in all of the
 // expected endpoint middlewares
 func New(s service.PeekabooService, mdw map[string][]endpoint.Middleware) Endpoints {
-	eps := Endpoints{PikabuEndpoint: MakePikabuEndpoint(s)}
+	eps := Endpoints{
+		ChangeFpsEndpoint:      MakeChangeFpsEndpoint(s),
+		ChangeQualityEndpoint:  MakeChangeQualityEndpoint(s),
+		EndStreamingEndpoint:   MakeEndStreamingEndpoint(s),
+		PikabuEndpoint:         MakePikabuEndpoint(s),
+		RefreshWindowsEndpoint: MakeRefreshWindowsEndpoint(s),
+		StartStreamingEndpoint: MakeStartStreamingEndpoint(s),
+	}
 	for _, m := range mdw["Pikabu"] {
 		eps.PikabuEndpoint = m(eps.PikabuEndpoint)
+	}
+	for _, m := range mdw["RefreshWindows"] {
+		eps.RefreshWindowsEndpoint = m(eps.RefreshWindowsEndpoint)
+	}
+	for _, m := range mdw["StartStreaming"] {
+		eps.StartStreamingEndpoint = m(eps.StartStreamingEndpoint)
+	}
+	for _, m := range mdw["EndStreaming"] {
+		eps.EndStreamingEndpoint = m(eps.EndStreamingEndpoint)
+	}
+	for _, m := range mdw["ChangeQuality"] {
+		eps.ChangeQualityEndpoint = m(eps.ChangeQualityEndpoint)
+	}
+	for _, m := range mdw["ChangeFps"] {
+		eps.ChangeFpsEndpoint = m(eps.ChangeFpsEndpoint)
 	}
 	return eps
 }

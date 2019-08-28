@@ -12,6 +12,7 @@ import (
 	"math/rand"
 	"os"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 	"worker-peekaboo/peekaboo/pkg/grpc/pb"
@@ -45,6 +46,11 @@ func main() {
 	defer conn.Close()
 
 	services = append(services, "Peekaboo")
+	services = append(services, "RefreshWindow")
+	services = append(services, "StartStreaming")
+	services = append(services, "EndStreaming")
+	services = append(services, "ChangeQuality")
+	services = append(services, "ChangeFps")
 	//services = append(services, "ReadAllPatient")
 
 	showUsage()
@@ -69,12 +75,224 @@ func main() {
 		switch caseService {
 		case "Peekaboo":
 			Peekaboo()
+		case "RepeatPeekaboo":
+			RepeatPeekaboo()
+		case "RefreshWindow":
+			RefreshWindow()
+		case "StartStreaming":
+			StartStreaming()
+		case "EndStreaming":
+			EndStreaming()
+		case "ChangeQuality":
+			ChangeQuality()
+		case "ChangeFps":
+			ChangeFps()
 
 		case "h":
 			showUsage()
 		}
 
-		fmt.Fprintf(os.Stderr, "> %v\n", tokens)
+		for _, e := range tokens {
+			fmt.Fprintf(os.Stderr, "%v ", e)
+		}
+		fmt.Fprintf(os.Stderr, "\n")
+	}
+}
+func ChangeFps() {
+	if len(tokens) < 2 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <keyword>\n", GetFunctionName())
+		return
+	}
+
+	n, _ := strconv.Atoi(tokens[1])
+	message := pb.ChangeFpsRequest{
+		Fps: int32(n),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.ChangeFps(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.ChangeFpsRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func ChangeQuality() {
+	if len(tokens) < 2 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <keyword>\n", GetFunctionName())
+		return
+	}
+
+	n, _ := strconv.Atoi(tokens[1])
+	message := pb.ChangeQualityRequest{
+		Quality: int32(n),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.ChangeQuality(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.ChangeQualityRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func EndStreaming() {
+	if len(tokens) < 1 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <keyword>\n", GetFunctionName())
+		return
+	}
+
+	message := pb.EndStreamingRequest{}
+	if len(tokens) > 1 {
+		handle, _ := strconv.Atoi(tokens[1])
+		message.Handle = int32(handle)
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.EndStreaming(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.EndStreamingRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+
+func StartStreaming() {
+	if len(tokens) < 2 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <keyword>\n", GetFunctionName())
+		return
+	}
+
+	handle, _ := strconv.Atoi(tokens[1])
+	message := pb.StartStreamingRequest{
+		Handle: int32(handle),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.StartStreaming(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.StartStreamingRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+
+func RefreshWindow() {
+	if len(tokens) < 1 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <keyword>\n", GetFunctionName())
+		return
+	}
+
+	message := pb.RefreshWindowsRequest{}
+	if len(tokens) > 1 {
+		message.Keyword= tokens[1]
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.RefreshWindows(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.RefreshWindowsRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+
+func RepeatPeekaboo() {
+	for {
+		tokens = []string { "Peekaboo", "find", "MOMO" }
+		Peekaboo()
+		//go Peekaboo()
+		//time.Sleep(60 * time.Millisecond)
 	}
 }
 

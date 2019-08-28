@@ -13,5 +13,10 @@ import (
 func NewHTTPHandler(endpoints endpoint.Endpoints, options map[string][]http.ServerOption) http1.Handler {
 	m := mux.NewRouter()
 	makePikabuHandler(m, endpoints, options["Pikabu"])
+	makeRefreshWindowsHandler(m, endpoints, options["RefreshWindows"])
+	makeStartStreamingHandler(m, endpoints, options["StartStreaming"])
+	makeEndStreamingHandler(m, endpoints, options["EndStreaming"])
+	makeChangeQualityHandler(m, endpoints, options["ChangeQuality"])
+	makeChangeFpsHandler(m, endpoints, options["ChangeFps"])
 	return m
 }
