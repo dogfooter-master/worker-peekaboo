@@ -3,7 +3,10 @@ package service
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"image/jpeg"
+	"os"
+	"time"
 	"worker-peekaboo/peekaboo/pkg/grpc/pb"
 
 	"github.com/TheTitanrain/w32"
@@ -67,7 +70,7 @@ func (b *basicPeekabooService) Pikabu(ctx context.Context, req *pb.PikabuRequest
 }
 
 func (b *basicPeekabooService) RefreshWindows(ctx context.Context, req *pb.RefreshWindowsRequest) (res *pb.RefreshWindowsReply, err error) {
-
+	defer timeTrack(time.Now(), GetFunctionName())
 	peekabooWindowInfo = PeekabooWin{
 		Wildcard: req.Keyword,
 	}
@@ -90,6 +93,8 @@ func (b *basicPeekabooService) RefreshWindows(ctx context.Context, req *pb.Refre
 }
 
 func (b *basicPeekabooService) StartStreaming(ctx context.Context, req *pb.StartStreamingRequest) (res *pb.StartStreamingReply, err error) {
+	defer timeTrack(time.Now(), GetFunctionName())
+	fmt.Fprintf(os.Stderr, "DEBUG: %#v\n", req)
 	ss := StreamObject{
 		Command:      "start",
 		Handle:       w32.HWND(req.Handle),
