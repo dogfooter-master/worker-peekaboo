@@ -223,7 +223,13 @@ func (h *Hub) run() {
 				//remember := client.remember
 				//session_uuid := client.session_uuid
 				if _, ok := WebRTCMap[client.Id]; ok {
-					WebRTCMap[client.Id].DataChannel.Close()
+					if WebRTCMap[client.Id].DataChannel != nil {
+						d, _ := WebRTCMap[client.Id].DataChannel.Detach()
+						if d != nil {
+							fmt.Fprintf(os.Stderr, "%#v\n", WebRTCMap[client.Id].DataChannel)
+							WebRTCMap[client.Id].DataChannel.Close()
+						}
+					}
 					delete(WebRTCMap, client.Id)
 				}
 				delete(h.Clients, client)
