@@ -25,6 +25,12 @@ func defaultHttpOptions(logger log.Logger, tracer opentracinggo.Tracer) map[stri
 		"ChangeProperties": {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "ChangeProperties", logger))},
 		"ChangeQuality":    {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "ChangeQuality", logger))},
 		"EndStreaming":     {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "EndStreaming", logger))},
+		"MouseDown":        {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseDown", logger))},
+		"MouseDown2":       {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseDown2", logger))},
+		"MouseMove":        {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseMove", logger))},
+		"MouseMove2":       {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseMove2", logger))},
+		"MouseUp":          {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseUp", logger))},
+		"MouseUp2":         {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "MouseUp2", logger))},
 		"Pikabu":           {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "Pikabu", logger))},
 		"RefreshWindows":   {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "RefreshWindows", logger))},
 		"StartStreaming":   {http.ServerErrorEncoder(http1.ErrorEncoder), http.ServerErrorLogger(logger), http.ServerBefore(opentracing.HTTPToContext(tracer, "StartStreaming", logger))},
@@ -37,6 +43,12 @@ func defaultGRPCOptions(logger log.Logger, tracer opentracinggo.Tracer) map[stri
 		"ChangeProperties": {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "ChangeProperties", logger))},
 		"ChangeQuality":    {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "ChangeQuality", logger))},
 		"EndStreaming":     {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "EndStreaming", logger))},
+		"MouseDown":        {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseDown", logger))},
+		"MouseDown2":       {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseDown2", logger))},
+		"MouseMove":        {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseMove", logger))},
+		"MouseMove2":       {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseMove2", logger))},
+		"MouseUp":          {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseUp", logger))},
+		"MouseUp2":         {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "MouseUp2", logger))},
 		"Pikabu":           {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "Pikabu", logger))},
 		"RefreshWindows":   {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "RefreshWindows", logger))},
 		"StartStreaming":   {grpc.ServerErrorLogger(logger), grpc.ServerBefore(opentracing.GRPCToContext(tracer, "StartStreaming", logger))},
@@ -44,7 +56,7 @@ func defaultGRPCOptions(logger log.Logger, tracer opentracinggo.Tracer) map[stri
 	return options
 }
 func addEndpointMiddlewareToAllMethods(mw map[string][]endpoint1.Middleware, m endpoint1.Middleware) {
-	methods := []string{"Pikabu", "RefreshWindows", "StartStreaming", "EndStreaming", "ChangeQuality", "ChangeFps", "ChangeProperties"}
+	methods := []string{"Pikabu", "RefreshWindows", "StartStreaming", "EndStreaming", "ChangeQuality", "ChangeFps", "ChangeProperties", "MouseDown", "MouseDown2", "MouseUp", "MouseUp2", "MouseMove", "MouseMove2"}
 	for _, v := range methods {
 		mw[v] = append(mw[v], m)
 	}

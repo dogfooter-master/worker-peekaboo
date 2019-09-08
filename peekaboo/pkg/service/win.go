@@ -20,13 +20,14 @@ type PeekabooWin struct {
 	ParentHWNDMap map[w32.HWND]w32.HWND
 	SideHWNDMap   map[w32.HWND]w32.HWND
 	TitleMap      map[w32.HWND]string
+	RectMap map[w32.HWND]*w32.RECT
 }
 
 var peekabooWindowInfo PeekabooWin
 
 func (p *PeekabooWin) CallbackMomoChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32.LRESULT {
 	s := w32.GetWindowText(hWnd)
-	fmt.Println("MOMO child:", s, "# hWnd:", hWnd, "# lParam:", lParam)
+	//fmt.Println("MOMO child:", s, "# hWnd:", hWnd, "# lParam:", lParam)
 	if len(s) > 3 {
 		isFound := false
 		for _, v := range p.HWNDList {
@@ -45,13 +46,19 @@ func (p *PeekabooWin) CallbackMomoChildProcess(hWnd w32.HWND, lParam w32.LPARAM)
 				p.TitleMap = make(map[w32.HWND]string)
 			}
 			p.TitleMap[hWnd] = w32.GetWindowText(w32.HWND(lParam))
+
+			rect := w32.GetWindowRect(hWnd)
+			if p.RectMap == nil {
+				p.RectMap = make(map[w32.HWND]*w32.RECT)
+			}
+			p.RectMap[hWnd] = rect
 		}
 	}
 	return 1
 }
 func (p *PeekabooWin) CallbackMemuChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32.LRESULT {
 	s := w32.GetWindowText(hWnd)
-	fmt.Println("Memu child:", s, "# hWnd:", hWnd, "# lParam:", lParam)
+	//fmt.Println("Memu child:", s, "# hWnd:", hWnd, "# lParam:", lParam)
 	if s == "RenderWindowWindow" {
 		isFound := false
 		for _, v := range p.HWNDList {
@@ -70,6 +77,12 @@ func (p *PeekabooWin) CallbackMemuChildProcess(hWnd w32.HWND, lParam w32.LPARAM)
 				p.TitleMap = make(map[w32.HWND]string)
 			}
 			p.TitleMap[hWnd] = w32.GetWindowText(w32.HWND(lParam))
+
+			rect := w32.GetWindowRect(hWnd)
+			if p.RectMap == nil {
+				p.RectMap = make(map[w32.HWND]*w32.RECT)
+			}
+			p.RectMap[hWnd] = rect
 		}
 	}
 	return 1
@@ -96,12 +109,17 @@ func (p *PeekabooWin) FindWindowWildcard() {
 				// MOMO
 				w32.EnumChildWindows(h, p.CallbackMomoChildProcess, w32.LPARAM(h))
 			} else if math.Abs(float64(rect.Right-rect.Left)) == float64(GetConfigSizeWidth()+4) {
-				fmt.Println("Nox child:", title, "# hWnd:", h)
+				//fmt.Println("Nox child:", title, "# hWnd:", h)
 
 				if p.TitleMap == nil {
 					p.TitleMap = make(map[w32.HWND]string)
 				}
 				p.TitleMap[h] = title
+
+				if p.RectMap == nil {
+					p.RectMap = make(map[w32.HWND]*w32.RECT)
+				}
+				p.RectMap[h] = rect
 
 				p.HWNDList = append(p.HWNDList, h)
 			} else if math.Abs(float64(rect.Right-rect.Left)) == float64(GetConfigSizeWidth()+40) {
@@ -252,4 +270,55 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 	//w32.ReleaseDC(hWnd, hdcSrc)
 
 	//w32.DeleteObject(w32.HGDIOBJ(hBitmap))
+}
+func (p *PeekabooWin) MouseDown(hWnd w32.HWND, x, y float32) {
+	if _, ok := p.RectMap[hWnd]; ok {
+		rect := p.RectMap[hWnd]
+		w := math.Abs(float64(rect.Right - rect.Left))
+		h := math.Abs(float64(rect.Bottom - rect.Top))
+
+		posX := int(w * float64(x))
+		posY := int(h * float64(y))
+
+		p.MouseDown2(hWnd, posX, posY)
+	}
+}
+func (p *PeekabooWin) MouseDown2(hWnd w32.HWND, x, y int) {
+	fmt.Fprintf(os.Stderr, "MouseDown2 #%v - X: %v, Y: %v\n", w32.GetWindowText(hWnd), x, y)
+	w32.PostMessage(hWnd, w32.WM_LBUTTONDOWN, w32.VK_LBUTTON, MakeLong(x, y))
+}
+func (p *PeekabooWin) MouseUp(hWnd w32.HWND, x, y float32) {
+	if _, ok := p.RectMap[hWnd]; ok {
+		rect := p.RectMap[hWnd]
+		w := math.Abs(float64(rect.Right - rect.Left))
+		h := math.Abs(float64(rect.Bottom - rect.Top))
+
+		posX := int(w * float64(x))
+		posY := int(h * float64(y))
+
+		p.MouseUp2(hWnd, posX, posY)
+	}
+}
+func (p *PeekabooWin) MouseUp2(hWnd w32.HWND, x, y int) {
+	fmt.Fprintf(os.Stderr, "MouseUp2 #%v - X: %v, Y: %v\n", w32.GetWindowText(hWnd), x, y)
+	w32.PostMessage(hWnd, w32.WM_LBUTTONUP, w32.VK_LBUTTON, MakeLong(x, y))
+}
+func (p *PeekabooWin) MouseMove(hWnd w32.HWND, x, y float32) {
+	if _, ok := p.RectMap[hWnd]; ok {
+		rect := p.RectMap[hWnd]
+		w := math.Abs(float64(rect.Right - rect.Left))
+		h := math.Abs(float64(rect.Bottom - rect.Top))
+
+		posX := int(w * float64(x))
+		posY := int(h * float64(y))
+
+		p.MouseMove2(hWnd, posX, posY)
+	}
+}
+func (p *PeekabooWin) MouseMove2(hWnd w32.HWND, x, y int) {
+	fmt.Fprintf(os.Stderr, "MouseMove2 #%v - X: %v, Y: %v\n", w32.GetWindowText(hWnd), x, y)
+	w32.PostMessage(hWnd, w32.WM_MOUSEMOVE, w32.VK_LBUTTON, MakeLong(x, y))
+}
+func MakeLong(x, y int) uintptr {
+	return  uintptr(y << 16 | x & 0xFFFF)
 }

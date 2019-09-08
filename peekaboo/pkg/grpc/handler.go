@@ -169,3 +169,141 @@ func (g *grpcServer) ChangeProperties(ctx context1.Context, req *pb.ChangeProper
 	}
 	return rep.(*pb.ChangePropertiesReply), nil
 }
+
+func makeMouseDownHandler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseDownEndpoint, decodeMouseDownRequest, encodeMouseDownResponse, options...)
+}
+
+func decodeMouseDownRequest(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseDownRequest)
+	return endpoint.MouseDownRequest{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseDownResponse(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseDownResponse)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseDown(ctx context1.Context, req *pb.MouseDownRequest) (*pb.MouseDownReply, error) {
+	_, rep, err := g.mouseDown.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseDownReply), nil
+}
+
+func makeMouseDown2Handler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseDown2Endpoint, decodeMouseDown2Request, encodeMouseDown2Response, options...)
+}
+
+func decodeMouseDown2Request(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseDown2Request)
+	return endpoint.MouseDown2Request{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseDown2Response(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseDown2Response)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseDown2(ctx context1.Context, req *pb.MouseDown2Request) (*pb.MouseDown2Reply, error) {
+	_, rep, err := g.mouseDown2.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseDown2Reply), nil
+}
+
+func makeMouseUpHandler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseUpEndpoint, decodeMouseUpRequest, encodeMouseUpResponse, options...)
+}
+
+func decodeMouseUpRequest(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseUpRequest)
+	return endpoint.MouseUpRequest{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseUpResponse(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseUpResponse)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseUp(ctx context1.Context, req *pb.MouseUpRequest) (*pb.MouseUpReply, error) {
+	_, rep, err := g.mouseUp.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseUpReply), nil
+}
+
+func makeMouseUp2Handler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseUp2Endpoint, decodeMouseUp2Request, encodeMouseUp2Response, options...)
+}
+
+func decodeMouseUp2Request(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseUp2Request)
+	return endpoint.MouseUp2Request{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseUp2Response(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseUp2Response)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseUp2(ctx context1.Context, req *pb.MouseUp2Request) (*pb.MouseUp2Reply, error) {
+	_, rep, err := g.mouseUp2.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseUp2Reply), nil
+}
+
+func makeMouseMoveHandler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseMoveEndpoint, decodeMouseMoveRequest, encodeMouseMoveResponse, options...)
+}
+
+func decodeMouseMoveRequest(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseMoveRequest)
+	return endpoint.MouseMoveRequest{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseMoveResponse(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseMoveResponse)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseMove(ctx context1.Context, req *pb.MouseMoveRequest) (*pb.MouseMoveReply, error) {
+	_, rep, err := g.mouseMove.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseMoveReply), nil
+}
+
+func makeMouseMove2Handler(endpoints endpoint.Endpoints, options []grpc.ServerOption) grpc.Handler {
+	return grpc.NewServer(endpoints.MouseMove2Endpoint, decodeMouseMove2Request, encodeMouseMove2Response, options...)
+}
+
+func decodeMouseMove2Request(_ context.Context, r interface{}) (interface{}, error) {
+	req := r.(*pb.MouseMove2Request)
+	return endpoint.MouseMove2Request{
+		Req: req,
+	}, nil
+}
+
+func encodeMouseMove2Response(_ context.Context, r interface{}) (interface{}, error) {
+	res := r.(endpoint.MouseMove2Response)
+	return res.Res, res.Failed()
+}
+func (g *grpcServer) MouseMove2(ctx context1.Context, req *pb.MouseMove2Request) (*pb.MouseMove2Reply, error) {
+	_, rep, err := g.mouseMove2.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.MouseMove2Reply), nil
+}

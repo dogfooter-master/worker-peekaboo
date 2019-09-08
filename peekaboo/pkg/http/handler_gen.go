@@ -19,5 +19,11 @@ func NewHTTPHandler(endpoints endpoint.Endpoints, options map[string][]http.Serv
 	makeChangeQualityHandler(m, endpoints, options["ChangeQuality"])
 	makeChangeFpsHandler(m, endpoints, options["ChangeFps"])
 	makeChangePropertiesHandler(m, endpoints, options["ChangeProperties"])
+	makeMouseDownHandler(m, endpoints, options["MouseDown"])
+	makeMouseDown2Handler(m, endpoints, options["MouseDown2"])
+	makeMouseUpHandler(m, endpoints, options["MouseUp"])
+	makeMouseUp2Handler(m, endpoints, options["MouseUp2"])
+	makeMouseMoveHandler(m, endpoints, options["MouseMove"])
+	makeMouseMove2Handler(m, endpoints, options["MouseMove2"])
 	return m
 }

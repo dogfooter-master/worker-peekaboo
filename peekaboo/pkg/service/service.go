@@ -25,6 +25,12 @@ type PeekabooService interface {
 	ChangeQuality(ctx context.Context, req *pb.ChangeQualityRequest) (res *pb.ChangeQualityReply, err error)
 	ChangeFps(ctx context.Context, req *pb.ChangeFpsRequest) (res *pb.ChangeFpsReply, err error)
 	ChangeProperties(ctx context.Context, req *pb.ChangePropertiesRequest) (res *pb.ChangePropertiesReply, err error)
+	MouseDown(ctx context.Context, req *pb.MouseDownRequest) (res *pb.MouseDownReply, err error)
+	MouseDown2(ctx context.Context, req *pb.MouseDown2Request) (res *pb.MouseDown2Reply, err error)
+	MouseUp(ctx context.Context, req *pb.MouseUpRequest) (res *pb.MouseUpReply, err error)
+	MouseUp2(ctx context.Context, req *pb.MouseUp2Request) (res *pb.MouseUp2Reply, err error)
+	MouseMove(ctx context.Context, req *pb.MouseMoveRequest) (res *pb.MouseMoveReply, err error)
+	MouseMove2(ctx context.Context, req *pb.MouseMove2Request) (res *pb.MouseMove2Reply, err error)
 }
 
 type basicPeekabooService struct{}
@@ -163,6 +169,58 @@ func (b *basicPeekabooService) ChangeProperties(ctx context.Context, req *pb.Cha
 
 	res = &pb.ChangePropertiesReply{
 		Label: req.Label,
+	}
+	return res, err
+}
+
+func (b *basicPeekabooService) MouseDown(ctx context.Context, req *pb.MouseDownRequest) (res *pb.MouseDownReply, err error) {
+	peekabooWindowInfo.MouseDown(w32.HWND(req.Handle), req.X, req.Y)
+
+	res = &pb.MouseDownReply{
+		Handle: req.Handle,
+	}
+	return res, err
+}
+func (b *basicPeekabooService) MouseDown2(ctx context.Context, req *pb.MouseDown2Request) (res *pb.MouseDown2Reply, err error) {
+	peekabooWindowInfo.MouseDown2(w32.HWND(req.Handle), int(req.X), int(req.Y))
+
+	res = &pb.MouseDown2Reply{
+		Handle: req.Handle,
+	}
+	return res, err
+}
+
+func (b *basicPeekabooService) MouseUp(ctx context.Context, req *pb.MouseUpRequest) (res *pb.MouseUpReply, err error) {
+	peekabooWindowInfo.MouseUp(w32.HWND(req.Handle), req.X, req.Y)
+
+	res = &pb.MouseUpReply{
+		Handle: req.Handle,
+	}
+	return res, err
+}
+func (b *basicPeekabooService) MouseUp2(ctx context.Context, req *pb.MouseUp2Request) (res *pb.MouseUp2Reply, err error) {
+	peekabooWindowInfo.MouseUp2(w32.HWND(req.Handle), int(req.X), int(req.Y))
+
+	res = &pb.MouseUp2Reply{
+		Handle: req.Handle,
+	}
+	return res, err
+}
+func (b *basicPeekabooService) MouseMove(ctx context.Context, req *pb.MouseMoveRequest) (res *pb.MouseMoveReply, err error) {
+
+	peekabooWindowInfo.MouseMove(w32.HWND(req.Handle), req.X, req.Y)
+
+	res = &pb.MouseMoveReply{
+		Handle: req.Handle,
+	}
+	return res, err
+}
+func (b *basicPeekabooService) MouseMove2(ctx context.Context, req *pb.MouseMove2Request) (res *pb.MouseMove2Reply, err error) {
+
+	peekabooWindowInfo.MouseMove2(w32.HWND(req.Handle), int(req.X), int(req.Y))
+
+	res = &pb.MouseMove2Reply{
+		Handle: req.Handle,
 	}
 	return res, err
 }

@@ -52,6 +52,16 @@ func main() {
 	services = append(services, "ChangeQuality")
 	services = append(services, "ChangeFps")
 	services = append(services, "ChangeProperties")
+	services = append(services, "MouseDown")
+	services = append(services, "MouseDown2")
+	services = append(services, "MouseUp")
+	services = append(services, "MouseUp2")
+	services = append(services, "MouseMove")
+	services = append(services, "MouseMove2")
+
+
+
+	services = append(services, "DragTest")
 	//services = append(services, "ReadAllPatient")
 
 	showUsage()
@@ -90,7 +100,21 @@ func main() {
 			ChangeFps()
 		case "ChangeProperties":
 			ChangeProperties()
+		case "MouseDown":
+			MouseDown()
+		case "MouseDown2":
+			MouseDown2()
+		case "MouseUp":
+			MouseUp()
+		case "MouseUp2":
+			MouseUp2()
+		case "MouseMove":
+			MouseMove()
+		case "MouseMove2":
+			MouseMove2()
 
+		case "DragTest":
+			DragTest()
 		case "h":
 			showUsage()
 		}
@@ -99,6 +123,286 @@ func main() {
 			fmt.Fprintf(os.Stderr, "%v ", e)
 		}
 		fmt.Fprintf(os.Stderr, "\n")
+	}
+}
+func DragTest() {
+	if len(tokens) < 2 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle>\n", GetFunctionName())
+		return
+	}
+
+	handle := tokens[1]
+
+	tokens = []string{}
+	tokens = append(tokens, "MouseDown2")
+	tokens = append(tokens, handle)
+	tokens = append(tokens, "645")
+	tokens = append(tokens, "320")
+	MouseDown2()
+
+	for i := 321; i > 180; i-- {
+		tokens = []string{}
+		tokens = append(tokens, "MouseMove")
+		tokens = append(tokens, handle)
+		tokens = append(tokens, "645")
+		tokens = append(tokens, strconv.Itoa(i))
+		MouseMove2()
+		time.Sleep(time.Duration(1*time.Millisecond))
+	}
+	time.Sleep(time.Duration(1000*time.Millisecond))
+
+	tokens = []string{}
+	tokens = append(tokens, "MouseUp2")
+	tokens = append(tokens, handle)
+	tokens = append(tokens, "645")
+	tokens = append(tokens, "180")
+	MouseUp2()
+
+}
+func MouseMove2() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.Atoi(tokens[2])
+	y, _ := strconv.Atoi(tokens[3])
+	message := pb.MouseMove2Request{
+		Handle:  int32(h),
+		X: int32(x),
+		Y: int32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseMove2(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseMove2Request error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func MouseMove() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.ParseFloat(tokens[2], 32)
+	y, _ := strconv.ParseFloat(tokens[3], 32)
+	message := pb.MouseMoveRequest{
+		Handle:  int32(h),
+		X: float32(x),
+		Y: float32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseMove(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseMoveRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func MouseUp2() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.Atoi(tokens[2])
+	y, _ := strconv.Atoi(tokens[3])
+	message := pb.MouseUp2Request{
+		Handle:  int32(h),
+		X: int32(x),
+		Y: int32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseUp2(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseUp2Request error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func MouseUp() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.ParseFloat(tokens[2], 32)
+	y, _ := strconv.ParseFloat(tokens[3], 32)
+	message := pb.MouseUpRequest{
+		Handle:  int32(h),
+		X: float32(x),
+		Y: float32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseUp(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseUpRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func MouseDown2() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.Atoi(tokens[2])
+	y, _ := strconv.Atoi(tokens[3])
+	message := pb.MouseDown2Request{
+		Handle:  int32(h),
+		X: int32(x),
+		Y: int32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseDown2(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseDown2Request error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
+	}
+}
+func MouseDown() {
+	if len(tokens) < 4 {
+		fmt.Fprintf(os.Stderr, "%s: <service> <handle> <x> <y>\n", GetFunctionName())
+		return
+	}
+
+	h, _ := strconv.Atoi(tokens[1])
+	x, _ := strconv.ParseFloat(tokens[2], 32)
+	y, _ := strconv.ParseFloat(tokens[3], 32)
+	message := pb.MouseDownRequest{
+		Handle:  int32(h),
+		X: float32(x),
+		Y: float32(y),
+	}
+
+	fmt.Fprintf(os.Stderr, "> %v Request: \n", GetFunctionName())
+	if j, err2 := json.MarshalIndent(message, "", " "); err2 != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err2)
+	} else {
+		fmt.Fprintf(os.Stderr, "%v\n", string(j))
+	}
+	fmt.Fprintf(os.Stdout, "\n")
+
+	defer timeTrack(time.Now(), GetFunctionName())
+	c := pb.NewPeekabooClient(conn)
+	reply, err := c.MouseDown(
+		context.Background(),
+		&message,
+	)
+	fmt.Fprintf(os.Stderr, "< %v Response: \n", GetFunctionName())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "pb.MouseDownRequest error: %v", err)
+		return
+	} else {
+		if j, err2 := json.MarshalIndent(reply, "", " "); err2 != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err2)
+		} else {
+			fmt.Fprintf(os.Stderr, "%v\n", string(j))
+		}
 	}
 }
 func ChangeProperties() {

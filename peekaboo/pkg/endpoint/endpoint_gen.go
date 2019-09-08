@@ -17,6 +17,12 @@ type Endpoints struct {
 	ChangeQualityEndpoint    endpoint.Endpoint
 	ChangeFpsEndpoint        endpoint.Endpoint
 	ChangePropertiesEndpoint endpoint.Endpoint
+	MouseDownEndpoint        endpoint.Endpoint
+	MouseDown2Endpoint       endpoint.Endpoint
+	MouseUpEndpoint          endpoint.Endpoint
+	MouseUp2Endpoint         endpoint.Endpoint
+	MouseMoveEndpoint        endpoint.Endpoint
+	MouseMove2Endpoint       endpoint.Endpoint
 }
 
 // New returns a Endpoints struct that wraps the provided service, and wires in all of the
@@ -27,6 +33,12 @@ func New(s service.PeekabooService, mdw map[string][]endpoint.Middleware) Endpoi
 		ChangePropertiesEndpoint: MakeChangePropertiesEndpoint(s),
 		ChangeQualityEndpoint:    MakeChangeQualityEndpoint(s),
 		EndStreamingEndpoint:     MakeEndStreamingEndpoint(s),
+		MouseDown2Endpoint:       MakeMouseDown2Endpoint(s),
+		MouseDownEndpoint:        MakeMouseDownEndpoint(s),
+		MouseMove2Endpoint:       MakeMouseMove2Endpoint(s),
+		MouseMoveEndpoint:        MakeMouseMoveEndpoint(s),
+		MouseUp2Endpoint:         MakeMouseUp2Endpoint(s),
+		MouseUpEndpoint:          MakeMouseUpEndpoint(s),
 		PikabuEndpoint:           MakePikabuEndpoint(s),
 		RefreshWindowsEndpoint:   MakeRefreshWindowsEndpoint(s),
 		StartStreamingEndpoint:   MakeStartStreamingEndpoint(s),
@@ -51,6 +63,24 @@ func New(s service.PeekabooService, mdw map[string][]endpoint.Middleware) Endpoi
 	}
 	for _, m := range mdw["ChangeProperties"] {
 		eps.ChangePropertiesEndpoint = m(eps.ChangePropertiesEndpoint)
+	}
+	for _, m := range mdw["MouseDown"] {
+		eps.MouseDownEndpoint = m(eps.MouseDownEndpoint)
+	}
+	for _, m := range mdw["MouseDown2"] {
+		eps.MouseDown2Endpoint = m(eps.MouseDown2Endpoint)
+	}
+	for _, m := range mdw["MouseUp"] {
+		eps.MouseUpEndpoint = m(eps.MouseUpEndpoint)
+	}
+	for _, m := range mdw["MouseUp2"] {
+		eps.MouseUp2Endpoint = m(eps.MouseUp2Endpoint)
+	}
+	for _, m := range mdw["MouseMove"] {
+		eps.MouseMoveEndpoint = m(eps.MouseMoveEndpoint)
+	}
+	for _, m := range mdw["MouseMove2"] {
+		eps.MouseMove2Endpoint = m(eps.MouseMove2Endpoint)
 	}
 	return eps
 }

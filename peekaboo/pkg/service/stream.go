@@ -22,6 +22,7 @@ type StreamObject struct {
 var StreamingRequest chan StreamObject
 var StreamingResponse chan StreamObject
 var StreamingKeepGoing chan StreamObject
+var CurrentStream StreamObject
 
 func init() {
 	StreamingRequest = make(chan StreamObject, 1)
@@ -52,6 +53,7 @@ func Streaming(worker int) {
 			case "change":
 				StreamingKeepGoing <- ss
 			}
+			fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'\n", worker, ss.Command)
 		case ss = <- StreamingKeepGoing:
 			if ss.Fps > 60 {
 				ss.Fps = 60
@@ -67,7 +69,7 @@ func Streaming(worker int) {
 				if WebRTCMap != nil {
 					//defer timeTrack(time.Now(), GetFunctionName() + "-22")
 					if v, ok := WebRTCMap[ss.ChannelLabel]; ok {
-						fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality)
+						//fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality)
 						if v.DataChannel.ReadyState() == webrtc.DataChannelStateOpen && v.DataChannel.Label() == ss.ChannelLabel {
 							isFound = true
 							buf := new(bytes.Buffer)
@@ -90,7 +92,9 @@ func Streaming(worker int) {
 				}
 				if isFound == false || ss.Command == "stop" {
 					fmt.Println("not found #", ss.ChannelLabel)
+					CurrentStream = StreamObject{}
 				} else {
+					CurrentStream = ss
 					StreamingKeepGoing <- ss
 				}
 			}

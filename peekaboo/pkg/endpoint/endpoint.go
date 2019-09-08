@@ -280,3 +280,231 @@ func (e Endpoints) ChangeProperties(ctx context.Context, req *pb.ChangePropertie
 	}
 	return response.(ChangePropertiesResponse).Res, response.(ChangePropertiesResponse).Err
 }
+
+// MouseDownRequest collects the request parameters for the MouseDown method.
+type MouseDownRequest struct {
+	Req *pb.MouseDownRequest `json:"req"`
+}
+
+// MouseDownResponse collects the response parameters for the MouseDown method.
+type MouseDownResponse struct {
+	Res *pb.MouseDownReply `json:"res"`
+	Err error              `json:"err"`
+}
+
+// MakeMouseDownEndpoint returns an endpoint that invokes MouseDown on the service.
+func MakeMouseDownEndpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseDownRequest)
+		res, err := s.MouseDown(ctx, req.Req)
+		return MouseDownResponse{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseDownResponse) Failed() error {
+	return r.Err
+}
+
+// MouseDown implements Service. Primarily useful in a client.
+func (e Endpoints) MouseDown(ctx context.Context, req *pb.MouseDownRequest) (res *pb.MouseDownReply, err error) {
+	request := MouseDownRequest{Req: req}
+	response, err := e.MouseDownEndpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseDownResponse).Res, response.(MouseDownResponse).Err
+}
+
+// MouseDown2Request collects the request parameters for the MouseDown2 method.
+type MouseDown2Request struct {
+	Req *pb.MouseDown2Request `json:"req"`
+}
+
+// MouseDown2Response collects the response parameters for the MouseDown2 method.
+type MouseDown2Response struct {
+	Res *pb.MouseDown2Reply `json:"res"`
+	Err error               `json:"err"`
+}
+
+// MakeMouseDown2Endpoint returns an endpoint that invokes MouseDown2 on the service.
+func MakeMouseDown2Endpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseDown2Request)
+		res, err := s.MouseDown2(ctx, req.Req)
+		return MouseDown2Response{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseDown2Response) Failed() error {
+	return r.Err
+}
+
+// MouseDown2 implements Service. Primarily useful in a client.
+func (e Endpoints) MouseDown2(ctx context.Context, req *pb.MouseDown2Request) (res *pb.MouseDown2Reply, err error) {
+	request := MouseDown2Request{Req: req}
+	response, err := e.MouseDown2Endpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseDown2Response).Res, response.(MouseDown2Response).Err
+}
+
+// MouseUpRequest collects the request parameters for the MouseUp method.
+type MouseUpRequest struct {
+	Req *pb.MouseUpRequest `json:"req"`
+}
+
+// MouseUpResponse collects the response parameters for the MouseUp method.
+type MouseUpResponse struct {
+	Res *pb.MouseUpReply `json:"res"`
+	Err error            `json:"err"`
+}
+
+// MakeMouseUpEndpoint returns an endpoint that invokes MouseUp on the service.
+func MakeMouseUpEndpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseUpRequest)
+		res, err := s.MouseUp(ctx, req.Req)
+		return MouseUpResponse{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseUpResponse) Failed() error {
+	return r.Err
+}
+
+// MouseUp2Request collects the request parameters for the MouseUp2 method.
+type MouseUp2Request struct {
+	Req *pb.MouseUp2Request `json:"req"`
+}
+
+// MouseUp2Response collects the response parameters for the MouseUp2 method.
+type MouseUp2Response struct {
+	Res *pb.MouseUp2Reply `json:"res"`
+	Err error             `json:"err"`
+}
+
+// MakeMouseUp2Endpoint returns an endpoint that invokes MouseUp2 on the service.
+func MakeMouseUp2Endpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseUp2Request)
+		res, err := s.MouseUp2(ctx, req.Req)
+		return MouseUp2Response{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseUp2Response) Failed() error {
+	return r.Err
+}
+
+// MouseMoveRequest collects the request parameters for the MouseMove method.
+type MouseMoveRequest struct {
+	Req *pb.MouseMoveRequest `json:"req"`
+}
+
+// MouseMoveResponse collects the response parameters for the MouseMove method.
+type MouseMoveResponse struct {
+	Res *pb.MouseMoveReply `json:"res"`
+	Err error              `json:"err"`
+}
+
+// MakeMouseMoveEndpoint returns an endpoint that invokes MouseMove on the service.
+func MakeMouseMoveEndpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseMoveRequest)
+		res, err := s.MouseMove(ctx, req.Req)
+		return MouseMoveResponse{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseMoveResponse) Failed() error {
+	return r.Err
+}
+
+// MouseMove2Request collects the request parameters for the MouseMove2 method.
+type MouseMove2Request struct {
+	Req *pb.MouseMove2Request `json:"req"`
+}
+
+// MouseMove2Response collects the response parameters for the MouseMove2 method.
+type MouseMove2Response struct {
+	Res *pb.MouseMove2Reply `json:"res"`
+	Err error               `json:"err"`
+}
+
+// MakeMouseMove2Endpoint returns an endpoint that invokes MouseMove2 on the service.
+func MakeMouseMove2Endpoint(s service.PeekabooService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(MouseMove2Request)
+		res, err := s.MouseMove2(ctx, req.Req)
+		return MouseMove2Response{
+			Err: err,
+			Res: res,
+		}, nil
+	}
+}
+
+// Failed implements Failer.
+func (r MouseMove2Response) Failed() error {
+	return r.Err
+}
+
+// MouseUp implements Service. Primarily useful in a client.
+func (e Endpoints) MouseUp(ctx context.Context, req *pb.MouseUpRequest) (res *pb.MouseUpReply, err error) {
+	request := MouseUpRequest{Req: req}
+	response, err := e.MouseUpEndpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseUpResponse).Res, response.(MouseUpResponse).Err
+}
+
+// MouseUp2 implements Service. Primarily useful in a client.
+func (e Endpoints) MouseUp2(ctx context.Context, req *pb.MouseUp2Request) (res *pb.MouseUp2Reply, err error) {
+	request := MouseUp2Request{Req: req}
+	response, err := e.MouseUp2Endpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseUp2Response).Res, response.(MouseUp2Response).Err
+}
+
+// MouseMove implements Service. Primarily useful in a client.
+func (e Endpoints) MouseMove(ctx context.Context, req *pb.MouseMoveRequest) (res *pb.MouseMoveReply, err error) {
+	request := MouseMoveRequest{Req: req}
+	response, err := e.MouseMoveEndpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseMoveResponse).Res, response.(MouseMoveResponse).Err
+}
+
+// MouseMove2 implements Service. Primarily useful in a client.
+func (e Endpoints) MouseMove2(ctx context.Context, req *pb.MouseMove2Request) (res *pb.MouseMove2Reply, err error) {
+	request := MouseMove2Request{Req: req}
+	response, err := e.MouseMove2Endpoint(ctx, request)
+	if err != nil {
+		return
+	}
+	return response.(MouseMove2Response).Res, response.(MouseMove2Response).Err
+}

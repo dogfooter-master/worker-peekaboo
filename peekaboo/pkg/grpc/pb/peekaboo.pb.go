@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -695,6 +697,570 @@ func (m *ChangePropertiesReply) GetLabel() string {
 	return ""
 }
 
+type MouseDownRequest struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    float32  `protobuf:"fixed32,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    float32  `protobuf:"fixed32,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseDownRequest) Reset()         { *m = MouseDownRequest{} }
+func (m *MouseDownRequest) String() string { return proto.CompactTextString(m) }
+func (*MouseDownRequest) ProtoMessage()    {}
+func (*MouseDownRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{14}
+}
+
+func (m *MouseDownRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseDownRequest.Unmarshal(m, b)
+}
+func (m *MouseDownRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseDownRequest.Marshal(b, m, deterministic)
+}
+func (m *MouseDownRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseDownRequest.Merge(m, src)
+}
+func (m *MouseDownRequest) XXX_Size() int {
+	return xxx_messageInfo_MouseDownRequest.Size(m)
+}
+func (m *MouseDownRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseDownRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseDownRequest proto.InternalMessageInfo
+
+func (m *MouseDownRequest) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseDownRequest) GetX() float32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseDownRequest) GetY() float32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseDownReply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseDownReply) Reset()         { *m = MouseDownReply{} }
+func (m *MouseDownReply) String() string { return proto.CompactTextString(m) }
+func (*MouseDownReply) ProtoMessage()    {}
+func (*MouseDownReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{15}
+}
+
+func (m *MouseDownReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseDownReply.Unmarshal(m, b)
+}
+func (m *MouseDownReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseDownReply.Marshal(b, m, deterministic)
+}
+func (m *MouseDownReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseDownReply.Merge(m, src)
+}
+func (m *MouseDownReply) XXX_Size() int {
+	return xxx_messageInfo_MouseDownReply.Size(m)
+}
+func (m *MouseDownReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseDownReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseDownReply proto.InternalMessageInfo
+
+func (m *MouseDownReply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type MouseDown2Request struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    int32    `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    int32    `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseDown2Request) Reset()         { *m = MouseDown2Request{} }
+func (m *MouseDown2Request) String() string { return proto.CompactTextString(m) }
+func (*MouseDown2Request) ProtoMessage()    {}
+func (*MouseDown2Request) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{16}
+}
+
+func (m *MouseDown2Request) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseDown2Request.Unmarshal(m, b)
+}
+func (m *MouseDown2Request) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseDown2Request.Marshal(b, m, deterministic)
+}
+func (m *MouseDown2Request) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseDown2Request.Merge(m, src)
+}
+func (m *MouseDown2Request) XXX_Size() int {
+	return xxx_messageInfo_MouseDown2Request.Size(m)
+}
+func (m *MouseDown2Request) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseDown2Request.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseDown2Request proto.InternalMessageInfo
+
+func (m *MouseDown2Request) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseDown2Request) GetX() int32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseDown2Request) GetY() int32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseDown2Reply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseDown2Reply) Reset()         { *m = MouseDown2Reply{} }
+func (m *MouseDown2Reply) String() string { return proto.CompactTextString(m) }
+func (*MouseDown2Reply) ProtoMessage()    {}
+func (*MouseDown2Reply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{17}
+}
+
+func (m *MouseDown2Reply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseDown2Reply.Unmarshal(m, b)
+}
+func (m *MouseDown2Reply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseDown2Reply.Marshal(b, m, deterministic)
+}
+func (m *MouseDown2Reply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseDown2Reply.Merge(m, src)
+}
+func (m *MouseDown2Reply) XXX_Size() int {
+	return xxx_messageInfo_MouseDown2Reply.Size(m)
+}
+func (m *MouseDown2Reply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseDown2Reply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseDown2Reply proto.InternalMessageInfo
+
+func (m *MouseDown2Reply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type MouseUpRequest struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    float32  `protobuf:"fixed32,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    float32  `protobuf:"fixed32,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseUpRequest) Reset()         { *m = MouseUpRequest{} }
+func (m *MouseUpRequest) String() string { return proto.CompactTextString(m) }
+func (*MouseUpRequest) ProtoMessage()    {}
+func (*MouseUpRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{18}
+}
+
+func (m *MouseUpRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseUpRequest.Unmarshal(m, b)
+}
+func (m *MouseUpRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseUpRequest.Marshal(b, m, deterministic)
+}
+func (m *MouseUpRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseUpRequest.Merge(m, src)
+}
+func (m *MouseUpRequest) XXX_Size() int {
+	return xxx_messageInfo_MouseUpRequest.Size(m)
+}
+func (m *MouseUpRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseUpRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseUpRequest proto.InternalMessageInfo
+
+func (m *MouseUpRequest) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseUpRequest) GetX() float32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseUpRequest) GetY() float32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseUpReply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseUpReply) Reset()         { *m = MouseUpReply{} }
+func (m *MouseUpReply) String() string { return proto.CompactTextString(m) }
+func (*MouseUpReply) ProtoMessage()    {}
+func (*MouseUpReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{19}
+}
+
+func (m *MouseUpReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseUpReply.Unmarshal(m, b)
+}
+func (m *MouseUpReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseUpReply.Marshal(b, m, deterministic)
+}
+func (m *MouseUpReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseUpReply.Merge(m, src)
+}
+func (m *MouseUpReply) XXX_Size() int {
+	return xxx_messageInfo_MouseUpReply.Size(m)
+}
+func (m *MouseUpReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseUpReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseUpReply proto.InternalMessageInfo
+
+func (m *MouseUpReply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type MouseUp2Request struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    int32    `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    int32    `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseUp2Request) Reset()         { *m = MouseUp2Request{} }
+func (m *MouseUp2Request) String() string { return proto.CompactTextString(m) }
+func (*MouseUp2Request) ProtoMessage()    {}
+func (*MouseUp2Request) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{20}
+}
+
+func (m *MouseUp2Request) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseUp2Request.Unmarshal(m, b)
+}
+func (m *MouseUp2Request) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseUp2Request.Marshal(b, m, deterministic)
+}
+func (m *MouseUp2Request) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseUp2Request.Merge(m, src)
+}
+func (m *MouseUp2Request) XXX_Size() int {
+	return xxx_messageInfo_MouseUp2Request.Size(m)
+}
+func (m *MouseUp2Request) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseUp2Request.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseUp2Request proto.InternalMessageInfo
+
+func (m *MouseUp2Request) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseUp2Request) GetX() int32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseUp2Request) GetY() int32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseUp2Reply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseUp2Reply) Reset()         { *m = MouseUp2Reply{} }
+func (m *MouseUp2Reply) String() string { return proto.CompactTextString(m) }
+func (*MouseUp2Reply) ProtoMessage()    {}
+func (*MouseUp2Reply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{21}
+}
+
+func (m *MouseUp2Reply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseUp2Reply.Unmarshal(m, b)
+}
+func (m *MouseUp2Reply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseUp2Reply.Marshal(b, m, deterministic)
+}
+func (m *MouseUp2Reply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseUp2Reply.Merge(m, src)
+}
+func (m *MouseUp2Reply) XXX_Size() int {
+	return xxx_messageInfo_MouseUp2Reply.Size(m)
+}
+func (m *MouseUp2Reply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseUp2Reply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseUp2Reply proto.InternalMessageInfo
+
+func (m *MouseUp2Reply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type MouseMoveRequest struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    float32  `protobuf:"fixed32,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    float32  `protobuf:"fixed32,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseMoveRequest) Reset()         { *m = MouseMoveRequest{} }
+func (m *MouseMoveRequest) String() string { return proto.CompactTextString(m) }
+func (*MouseMoveRequest) ProtoMessage()    {}
+func (*MouseMoveRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{22}
+}
+
+func (m *MouseMoveRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseMoveRequest.Unmarshal(m, b)
+}
+func (m *MouseMoveRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseMoveRequest.Marshal(b, m, deterministic)
+}
+func (m *MouseMoveRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseMoveRequest.Merge(m, src)
+}
+func (m *MouseMoveRequest) XXX_Size() int {
+	return xxx_messageInfo_MouseMoveRequest.Size(m)
+}
+func (m *MouseMoveRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseMoveRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseMoveRequest proto.InternalMessageInfo
+
+func (m *MouseMoveRequest) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseMoveRequest) GetX() float32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseMoveRequest) GetY() float32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseMoveReply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseMoveReply) Reset()         { *m = MouseMoveReply{} }
+func (m *MouseMoveReply) String() string { return proto.CompactTextString(m) }
+func (*MouseMoveReply) ProtoMessage()    {}
+func (*MouseMoveReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{23}
+}
+
+func (m *MouseMoveReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseMoveReply.Unmarshal(m, b)
+}
+func (m *MouseMoveReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseMoveReply.Marshal(b, m, deterministic)
+}
+func (m *MouseMoveReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseMoveReply.Merge(m, src)
+}
+func (m *MouseMoveReply) XXX_Size() int {
+	return xxx_messageInfo_MouseMoveReply.Size(m)
+}
+func (m *MouseMoveReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseMoveReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseMoveReply proto.InternalMessageInfo
+
+func (m *MouseMoveReply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+type MouseMove2Request struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	X                    int32    `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    int32    `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseMove2Request) Reset()         { *m = MouseMove2Request{} }
+func (m *MouseMove2Request) String() string { return proto.CompactTextString(m) }
+func (*MouseMove2Request) ProtoMessage()    {}
+func (*MouseMove2Request) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{24}
+}
+
+func (m *MouseMove2Request) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseMove2Request.Unmarshal(m, b)
+}
+func (m *MouseMove2Request) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseMove2Request.Marshal(b, m, deterministic)
+}
+func (m *MouseMove2Request) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseMove2Request.Merge(m, src)
+}
+func (m *MouseMove2Request) XXX_Size() int {
+	return xxx_messageInfo_MouseMove2Request.Size(m)
+}
+func (m *MouseMove2Request) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseMove2Request.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseMove2Request proto.InternalMessageInfo
+
+func (m *MouseMove2Request) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
+func (m *MouseMove2Request) GetX() int32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *MouseMove2Request) GetY() int32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type MouseMove2Reply struct {
+	Handle               int32    `protobuf:"varint,1,opt,name=handle,proto3" json:"handle,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *MouseMove2Reply) Reset()         { *m = MouseMove2Reply{} }
+func (m *MouseMove2Reply) String() string { return proto.CompactTextString(m) }
+func (*MouseMove2Reply) ProtoMessage()    {}
+func (*MouseMove2Reply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4e9296e1ca7b7ddb, []int{25}
+}
+
+func (m *MouseMove2Reply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MouseMove2Reply.Unmarshal(m, b)
+}
+func (m *MouseMove2Reply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MouseMove2Reply.Marshal(b, m, deterministic)
+}
+func (m *MouseMove2Reply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MouseMove2Reply.Merge(m, src)
+}
+func (m *MouseMove2Reply) XXX_Size() int {
+	return xxx_messageInfo_MouseMove2Reply.Size(m)
+}
+func (m *MouseMove2Reply) XXX_DiscardUnknown() {
+	xxx_messageInfo_MouseMove2Reply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MouseMove2Reply proto.InternalMessageInfo
+
+func (m *MouseMove2Reply) GetHandle() int32 {
+	if m != nil {
+		return m.Handle
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*PikabuRequest)(nil), "pb.PikabuRequest")
 	proto.RegisterType((*PikabuReply)(nil), "pb.PikabuReply")
@@ -711,44 +1277,68 @@ func init() {
 	proto.RegisterType((*ChangeFpsReply)(nil), "pb.ChangeFpsReply")
 	proto.RegisterType((*ChangePropertiesRequest)(nil), "pb.ChangePropertiesRequest")
 	proto.RegisterType((*ChangePropertiesReply)(nil), "pb.ChangePropertiesReply")
+	proto.RegisterType((*MouseDownRequest)(nil), "pb.MouseDownRequest")
+	proto.RegisterType((*MouseDownReply)(nil), "pb.MouseDownReply")
+	proto.RegisterType((*MouseDown2Request)(nil), "pb.MouseDown2Request")
+	proto.RegisterType((*MouseDown2Reply)(nil), "pb.MouseDown2Reply")
+	proto.RegisterType((*MouseUpRequest)(nil), "pb.MouseUpRequest")
+	proto.RegisterType((*MouseUpReply)(nil), "pb.MouseUpReply")
+	proto.RegisterType((*MouseUp2Request)(nil), "pb.MouseUp2Request")
+	proto.RegisterType((*MouseUp2Reply)(nil), "pb.MouseUp2Reply")
+	proto.RegisterType((*MouseMoveRequest)(nil), "pb.MouseMoveRequest")
+	proto.RegisterType((*MouseMoveReply)(nil), "pb.MouseMoveReply")
+	proto.RegisterType((*MouseMove2Request)(nil), "pb.MouseMove2Request")
+	proto.RegisterType((*MouseMove2Reply)(nil), "pb.MouseMove2Reply")
 }
 
 func init() { proto.RegisterFile("peekaboo.proto", fileDescriptor_4e9296e1ca7b7ddb) }
 
 var fileDescriptor_4e9296e1ca7b7ddb = []byte{
-	// 510 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0x4f, 0x6f, 0xd3, 0x30,
-	0x18, 0xc6, 0xe5, 0x95, 0x95, 0xf5, 0x2d, 0x2b, 0x9b, 0xdb, 0x6e, 0x59, 0x90, 0x50, 0xe5, 0x53,
-	0xd1, 0x20, 0x12, 0x43, 0x70, 0xe0, 0x00, 0x42, 0x63, 0x3b, 0x20, 0x0e, 0x25, 0x3b, 0x70, 0x44,
-	0x0e, 0xf5, 0xda, 0xa8, 0x21, 0x71, 0x6d, 0x57, 0x55, 0xbe, 0x04, 0x1f, 0x8c, 0x4f, 0x85, 0x1c,
-	0x37, 0xff, 0x1a, 0x87, 0x0b, 0xda, 0xad, 0xaf, 0xfd, 0x3e, 0xbf, 0xa7, 0xb6, 0x9f, 0x37, 0x30,
-	0xe0, 0x8c, 0xad, 0x68, 0x90, 0x24, 0x1e, 0x17, 0x89, 0x4a, 0xf0, 0x01, 0x0f, 0xc8, 0x0d, 0x1c,
-	0xcf, 0xc2, 0x15, 0x0d, 0x36, 0x3e, 0x5b, 0x6f, 0x98, 0x54, 0xd8, 0x85, 0xa3, 0x9f, 0x54, 0xb1,
-	0x45, 0x22, 0x52, 0x07, 0x4d, 0xd0, 0xb4, 0xe7, 0x17, 0x35, 0x76, 0xe0, 0xf1, 0x8a, 0xa5, 0xdb,
-	0x44, 0xcc, 0x1d, 0xc8, 0xb6, 0xf2, 0x92, 0xbc, 0x80, 0x7e, 0x8e, 0xe1, 0x51, 0xfa, 0x2f, 0x08,
-	0x79, 0x0d, 0x63, 0x9f, 0xdd, 0x0b, 0x26, 0x97, 0xdf, 0xc3, 0x78, 0x9e, 0x6c, 0x65, 0xee, 0x5c,
-	0xa1, 0xa3, 0x3a, 0xfd, 0x37, 0x82, 0xe1, 0xbe, 0x46, 0xdb, 0x7c, 0x84, 0xfe, 0x36, 0xab, 0x7f,
-	0x44, 0xa1, 0x54, 0x0e, 0x9a, 0x74, 0xa6, 0xfd, 0xab, 0xe7, 0x1e, 0x0f, 0x3c, 0x4b, 0xb7, 0x67,
-	0x0a, 0x1f, 0x8c, 0xe4, 0x6b, 0x28, 0x95, 0xfb, 0x0e, 0xba, 0x66, 0x15, 0x8f, 0xe0, 0x50, 0x85,
-	0x2a, 0x62, 0x3b, 0x6b, 0x53, 0xe0, 0x33, 0xe8, 0x2e, 0x69, 0x3c, 0x8f, 0x98, 0x73, 0x30, 0x41,
-	0xd3, 0x43, 0x7f, 0x57, 0x91, 0x35, 0x8c, 0xef, 0x14, 0x15, 0xea, 0x4e, 0x09, 0x46, 0x7f, 0x85,
-	0xf1, 0x22, 0x3f, 0x43, 0x29, 0x40, 0x55, 0x81, 0xc6, 0x47, 0x34, 0x60, 0x51, 0xc6, 0xe9, 0xf9,
-	0xa6, 0xd0, 0x27, 0x5e, 0x6f, 0x68, 0x14, 0xaa, 0xd4, 0xe9, 0x64, 0xed, 0x79, 0x89, 0x4f, 0xa0,
-	0x73, 0xcf, 0xa5, 0xf3, 0x28, 0x5b, 0xd5, 0x3f, 0xc9, 0x25, 0x0c, 0xf7, 0x2d, 0xf5, 0x15, 0x14,
-	0x60, 0x54, 0x01, 0x93, 0x6b, 0x18, 0xde, 0xc4, 0xf3, 0xff, 0xfb, 0x77, 0xe4, 0x12, 0x4e, 0xeb,
-	0x10, 0xed, 0xd7, 0x82, 0x20, 0xb7, 0x30, 0xba, 0x5e, 0xd2, 0x78, 0xc1, 0xbe, 0x99, 0x13, 0x54,
-	0x1e, 0x35, 0x3f, 0x22, 0xaa, 0x1f, 0xd1, 0x6e, 0xea, 0x01, 0xde, 0xe3, 0x68, 0xd7, 0x56, 0x0a,
-	0x79, 0x0f, 0x27, 0xa6, 0xff, 0x96, 0x17, 0x41, 0xda, 0x5d, 0x1e, 0x2a, 0x2e, 0xaf, 0xc5, 0x8b,
-	0xc0, 0xa0, 0xa2, 0xd5, 0x3e, 0x0d, 0x25, 0x91, 0x70, 0x6e, 0x7a, 0x66, 0x22, 0xe1, 0x4c, 0xa8,
-	0x90, 0xc9, 0x87, 0x7f, 0xeb, 0x57, 0x30, 0x6e, 0x9a, 0xb6, 0xbe, 0xf6, 0xd5, 0x9f, 0x0e, 0x1c,
-	0xcd, 0x76, 0xa3, 0x8d, 0x5f, 0x42, 0xd7, 0x4c, 0x22, 0x3e, 0xd5, 0x83, 0x50, 0x1b, 0x6e, 0xf7,
-	0x69, 0x75, 0x49, 0x03, 0x3f, 0xc3, 0xa0, 0x3e, 0x2a, 0xf8, 0xc2, 0x36, 0x3e, 0x46, 0x7d, 0xde,
-	0x32, 0x59, 0x9a, 0x52, 0xcf, 0xa6, 0xa1, 0x58, 0x47, 0xc4, 0x50, 0x6c, 0x51, 0xfe, 0x00, 0x4f,
-	0xaa, 0x79, 0xc3, 0x59, 0xa3, 0x25, 0xc6, 0xee, 0xb8, 0xb9, 0xa1, 0xf5, 0x9f, 0xe0, 0xb8, 0x16,
-	0x1d, 0xec, 0xe8, 0x3e, 0x5b, 0x2a, 0xdd, 0x33, 0xcb, 0x8e, 0x46, 0xbc, 0x85, 0x5e, 0x91, 0x08,
-	0x3c, 0x2a, 0x9b, 0xca, 0x70, 0xb9, 0x78, 0x6f, 0x55, 0xcb, 0xbe, 0xe4, 0x21, 0x2c, 0xdf, 0x0b,
-	0x3f, 0x2b, 0xfb, 0x1a, 0xd1, 0x71, 0x2f, 0xec, 0x9b, 0x3c, 0x4a, 0x83, 0x6e, 0xf6, 0x6d, 0x7e,
-	0xf3, 0x37, 0x00, 0x00, 0xff, 0xff, 0x0e, 0xe9, 0x95, 0x05, 0xad, 0x05, 0x00, 0x00,
+	// 702 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0xdd, 0x6e, 0xd3, 0x4c,
+	0x10, 0xd5, 0xa6, 0x5f, 0xd2, 0x76, 0xda, 0xa6, 0xc9, 0xa6, 0x69, 0x5d, 0x7f, 0x12, 0xaa, 0xf6,
+	0x02, 0x52, 0x15, 0x82, 0x08, 0x02, 0x21, 0x2e, 0x40, 0xa8, 0x49, 0x90, 0x10, 0x95, 0x82, 0xab,
+	0x8a, 0x4b, 0x64, 0x93, 0x6d, 0x62, 0xc5, 0xd8, 0x8e, 0xbd, 0x21, 0xf5, 0x4b, 0x20, 0xf1, 0xc6,
+	0x68, 0xbd, 0xfe, 0x59, 0x3b, 0x8e, 0xa9, 0x94, 0x72, 0x97, 0x99, 0x9d, 0x39, 0x67, 0xc6, 0xb3,
+	0x73, 0x36, 0x50, 0x77, 0x29, 0x9d, 0xe9, 0x86, 0xe3, 0x74, 0x5d, 0xcf, 0x61, 0x0e, 0xae, 0xb8,
+	0x06, 0x19, 0xc0, 0xc1, 0xc8, 0x9c, 0xe9, 0xc6, 0x42, 0xa3, 0xf3, 0x05, 0xf5, 0x19, 0x56, 0x61,
+	0xe7, 0xbb, 0xce, 0xe8, 0xc4, 0xf1, 0x02, 0x05, 0x9d, 0xa1, 0xce, 0xae, 0x96, 0xd8, 0x58, 0x81,
+	0xed, 0x19, 0x0d, 0x96, 0x8e, 0x37, 0x56, 0x20, 0x3c, 0x8a, 0x4d, 0x72, 0x0e, 0x7b, 0x31, 0x8c,
+	0x6b, 0x05, 0x65, 0x20, 0xe4, 0x05, 0xb4, 0x35, 0x7a, 0xeb, 0x51, 0x7f, 0xfa, 0xd5, 0xb4, 0xc7,
+	0xce, 0xd2, 0x8f, 0x99, 0x25, 0x74, 0x94, 0x45, 0xff, 0x85, 0xa0, 0x95, 0xcf, 0xe1, 0x34, 0xef,
+	0x61, 0x6f, 0x19, 0xda, 0xdf, 0x2c, 0xd3, 0x67, 0x0a, 0x3a, 0xdb, 0xea, 0xec, 0xf5, 0x1e, 0x75,
+	0x5d, 0xa3, 0x5b, 0x10, 0xdd, 0x15, 0x86, 0x06, 0x22, 0xe5, 0xb3, 0xe9, 0x33, 0xf5, 0x35, 0xd4,
+	0x84, 0x17, 0x1f, 0x41, 0x95, 0x99, 0xcc, 0xa2, 0x11, 0xb5, 0x30, 0xf0, 0x31, 0xd4, 0xa6, 0xba,
+	0x3d, 0xb6, 0xa8, 0x52, 0x39, 0x43, 0x9d, 0xaa, 0x16, 0x59, 0x64, 0x0e, 0xed, 0x6b, 0xa6, 0x7b,
+	0xec, 0x9a, 0x79, 0x54, 0xff, 0x61, 0xda, 0x93, 0xb8, 0x87, 0x34, 0x01, 0xc9, 0x09, 0x1c, 0xde,
+	0xd2, 0x0d, 0x6a, 0x85, 0x38, 0xbb, 0x9a, 0x30, 0x78, 0xc7, 0xf3, 0x85, 0x6e, 0x99, 0x2c, 0x50,
+	0xb6, 0xc2, 0xf0, 0xd8, 0xc4, 0x0d, 0xd8, 0xba, 0x75, 0x7d, 0xe5, 0xbf, 0xd0, 0xcb, 0x7f, 0x92,
+	0x0b, 0x68, 0xe5, 0x29, 0xf9, 0x27, 0x48, 0x80, 0x91, 0x04, 0x4c, 0x2e, 0xa1, 0x35, 0xb0, 0xc7,
+	0x9b, 0x55, 0x47, 0x2e, 0xa0, 0x99, 0x05, 0xe1, 0x7c, 0x6b, 0x20, 0xc8, 0x10, 0x8e, 0x2e, 0xa7,
+	0xba, 0x3d, 0xa1, 0x5f, 0x44, 0x07, 0xd2, 0x50, 0xe3, 0x16, 0x51, 0xb6, 0xc5, 0x62, 0xd2, 0x2e,
+	0xe0, 0x1c, 0x0e, 0x67, 0x5d, 0x8b, 0x42, 0xde, 0x42, 0x43, 0xc4, 0x0f, 0xdd, 0xe4, 0x22, 0x45,
+	0x1f, 0x0f, 0x25, 0x1f, 0x6f, 0x0d, 0x17, 0x81, 0xba, 0x94, 0xcb, 0x79, 0x56, 0x32, 0x89, 0x0f,
+	0x27, 0x22, 0x66, 0xe4, 0x39, 0x2e, 0xf5, 0x98, 0x49, 0xfd, 0x7f, 0x3f, 0xeb, 0x67, 0xd0, 0x5e,
+	0x25, 0x5d, 0x3f, 0xed, 0x21, 0x34, 0xae, 0x9c, 0x85, 0x4f, 0xfb, 0xce, 0xd2, 0xfe, 0x5b, 0x71,
+	0xfb, 0x80, 0xee, 0xc2, 0x02, 0x2a, 0x1a, 0xba, 0xe3, 0x56, 0x10, 0x12, 0x57, 0x34, 0x14, 0x90,
+	0x0e, 0xd4, 0x25, 0x9c, 0xb2, 0x69, 0x7f, 0x84, 0x66, 0x12, 0xd9, 0xbb, 0x37, 0x65, 0x35, 0x43,
+	0x59, 0xe5, 0x94, 0xe7, 0x70, 0x28, 0x03, 0x95, 0x71, 0xf6, 0xa3, 0xea, 0x6e, 0xdc, 0x4d, 0x7a,
+	0x7c, 0x0c, 0xfb, 0x09, 0x4a, 0x19, 0xdb, 0x20, 0x2a, 0xec, 0xc6, 0xdd, 0xa8, 0xbf, 0x27, 0x70,
+	0x90, 0xc2, 0x94, 0xef, 0x8f, 0x98, 0xe1, 0x95, 0xf3, 0x93, 0x3e, 0xc4, 0x0c, 0x05, 0xce, 0x7d,
+	0x66, 0xc8, 0x23, 0x1f, 0x64, 0x86, 0x11, 0x50, 0x09, 0x67, 0xef, 0x77, 0x0d, 0x76, 0x46, 0xd1,
+	0x23, 0x84, 0x9f, 0x42, 0x4d, 0xbc, 0x19, 0xb8, 0xc9, 0x25, 0x3b, 0xf3, 0x0c, 0xa9, 0x87, 0xb2,
+	0x8b, 0x43, 0xf6, 0xa1, 0x9e, 0x15, 0x75, 0x7c, 0x5a, 0x24, 0xf4, 0x22, 0xfb, 0x64, 0xcd, 0x1b,
+	0xc0, 0x51, 0xb2, 0x2a, 0x2a, 0x50, 0x0a, 0xc5, 0x5c, 0xa0, 0x14, 0x89, 0xee, 0x3b, 0xd8, 0x97,
+	0x95, 0x11, 0x87, 0x81, 0x05, 0x82, 0xab, 0xb6, 0x57, 0x0f, 0x78, 0xfe, 0x07, 0x38, 0xc8, 0x88,
+	0x1c, 0x56, 0x78, 0x5c, 0x91, 0x7e, 0xaa, 0xc7, 0x05, 0x27, 0x1c, 0xe2, 0x15, 0xec, 0x26, 0xda,
+	0x85, 0x8f, 0xd2, 0xa0, 0x54, 0x06, 0x55, 0x9c, 0xf3, 0xf2, 0xb4, 0x4f, 0xb1, 0x5c, 0xa6, 0xca,
+	0x82, 0xff, 0x4f, 0xe3, 0x56, 0x44, 0x4e, 0x3d, 0x2d, 0x3e, 0x8c, 0x4a, 0x48, 0x76, 0x57, 0x94,
+	0x90, 0x57, 0x21, 0x51, 0x42, 0x4e, 0x53, 0xde, 0x00, 0xa4, 0x2b, 0x8f, 0xdb, 0x99, 0x88, 0xf8,
+	0x1e, 0xaa, 0xad, 0xbc, 0x9b, 0x67, 0x3e, 0x87, 0xed, 0x68, 0x99, 0x70, 0x0a, 0x9c, 0xc8, 0x81,
+	0xda, 0xc8, 0xf8, 0x78, 0x42, 0x0f, 0x76, 0xe2, 0xed, 0xc3, 0x2d, 0xe9, 0x34, 0xa1, 0x69, 0x66,
+	0x9d, 0x72, 0x57, 0xfc, 0x36, 0x4b, 0x5d, 0x49, 0x7b, 0x29, 0x75, 0x95, 0x6e, 0x59, 0xdc, 0x55,
+	0xb8, 0x04, 0x52, 0x57, 0xf2, 0x76, 0x49, 0x5d, 0xa5, 0xbb, 0x62, 0xd4, 0xc2, 0x3f, 0x63, 0x2f,
+	0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0xb4, 0x7f, 0xfa, 0xe4, 0x9e, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -770,6 +1360,12 @@ type PeekabooClient interface {
 	ChangeQuality(ctx context.Context, in *ChangeQualityRequest, opts ...grpc.CallOption) (*ChangeQualityReply, error)
 	ChangeFps(ctx context.Context, in *ChangeFpsRequest, opts ...grpc.CallOption) (*ChangeFpsReply, error)
 	ChangeProperties(ctx context.Context, in *ChangePropertiesRequest, opts ...grpc.CallOption) (*ChangePropertiesReply, error)
+	MouseDown(ctx context.Context, in *MouseDownRequest, opts ...grpc.CallOption) (*MouseDownReply, error)
+	MouseDown2(ctx context.Context, in *MouseDown2Request, opts ...grpc.CallOption) (*MouseDown2Reply, error)
+	MouseUp(ctx context.Context, in *MouseUpRequest, opts ...grpc.CallOption) (*MouseUpReply, error)
+	MouseUp2(ctx context.Context, in *MouseUp2Request, opts ...grpc.CallOption) (*MouseUp2Reply, error)
+	MouseMove(ctx context.Context, in *MouseMoveRequest, opts ...grpc.CallOption) (*MouseMoveReply, error)
+	MouseMove2(ctx context.Context, in *MouseMove2Request, opts ...grpc.CallOption) (*MouseMove2Reply, error)
 }
 
 type peekabooClient struct {
@@ -843,6 +1439,60 @@ func (c *peekabooClient) ChangeProperties(ctx context.Context, in *ChangePropert
 	return out, nil
 }
 
+func (c *peekabooClient) MouseDown(ctx context.Context, in *MouseDownRequest, opts ...grpc.CallOption) (*MouseDownReply, error) {
+	out := new(MouseDownReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseDown", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) MouseDown2(ctx context.Context, in *MouseDown2Request, opts ...grpc.CallOption) (*MouseDown2Reply, error) {
+	out := new(MouseDown2Reply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseDown2", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) MouseUp(ctx context.Context, in *MouseUpRequest, opts ...grpc.CallOption) (*MouseUpReply, error) {
+	out := new(MouseUpReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseUp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) MouseUp2(ctx context.Context, in *MouseUp2Request, opts ...grpc.CallOption) (*MouseUp2Reply, error) {
+	out := new(MouseUp2Reply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseUp2", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) MouseMove(ctx context.Context, in *MouseMoveRequest, opts ...grpc.CallOption) (*MouseMoveReply, error) {
+	out := new(MouseMoveReply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseMove", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *peekabooClient) MouseMove2(ctx context.Context, in *MouseMove2Request, opts ...grpc.CallOption) (*MouseMove2Reply, error) {
+	out := new(MouseMove2Reply)
+	err := c.cc.Invoke(ctx, "/pb.Peekaboo/MouseMove2", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PeekabooServer is the server API for Peekaboo service.
 type PeekabooServer interface {
 	Pikabu(context.Context, *PikabuRequest) (*PikabuReply, error)
@@ -852,6 +1502,56 @@ type PeekabooServer interface {
 	ChangeQuality(context.Context, *ChangeQualityRequest) (*ChangeQualityReply, error)
 	ChangeFps(context.Context, *ChangeFpsRequest) (*ChangeFpsReply, error)
 	ChangeProperties(context.Context, *ChangePropertiesRequest) (*ChangePropertiesReply, error)
+	MouseDown(context.Context, *MouseDownRequest) (*MouseDownReply, error)
+	MouseDown2(context.Context, *MouseDown2Request) (*MouseDown2Reply, error)
+	MouseUp(context.Context, *MouseUpRequest) (*MouseUpReply, error)
+	MouseUp2(context.Context, *MouseUp2Request) (*MouseUp2Reply, error)
+	MouseMove(context.Context, *MouseMoveRequest) (*MouseMoveReply, error)
+	MouseMove2(context.Context, *MouseMove2Request) (*MouseMove2Reply, error)
+}
+
+// UnimplementedPeekabooServer can be embedded to have forward compatible implementations.
+type UnimplementedPeekabooServer struct {
+}
+
+func (*UnimplementedPeekabooServer) Pikabu(ctx context.Context, req *PikabuRequest) (*PikabuReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Pikabu not implemented")
+}
+func (*UnimplementedPeekabooServer) RefreshWindows(ctx context.Context, req *RefreshWindowsRequest) (*RefreshWindowsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshWindows not implemented")
+}
+func (*UnimplementedPeekabooServer) StartStreaming(ctx context.Context, req *StartStreamingRequest) (*StartStreamingReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartStreaming not implemented")
+}
+func (*UnimplementedPeekabooServer) EndStreaming(ctx context.Context, req *EndStreamingRequest) (*EndStreamingReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EndStreaming not implemented")
+}
+func (*UnimplementedPeekabooServer) ChangeQuality(ctx context.Context, req *ChangeQualityRequest) (*ChangeQualityReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeQuality not implemented")
+}
+func (*UnimplementedPeekabooServer) ChangeFps(ctx context.Context, req *ChangeFpsRequest) (*ChangeFpsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeFps not implemented")
+}
+func (*UnimplementedPeekabooServer) ChangeProperties(ctx context.Context, req *ChangePropertiesRequest) (*ChangePropertiesReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeProperties not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseDown(ctx context.Context, req *MouseDownRequest) (*MouseDownReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseDown not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseDown2(ctx context.Context, req *MouseDown2Request) (*MouseDown2Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseDown2 not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseUp(ctx context.Context, req *MouseUpRequest) (*MouseUpReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseUp not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseUp2(ctx context.Context, req *MouseUp2Request) (*MouseUp2Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseUp2 not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseMove(ctx context.Context, req *MouseMoveRequest) (*MouseMoveReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseMove not implemented")
+}
+func (*UnimplementedPeekabooServer) MouseMove2(ctx context.Context, req *MouseMove2Request) (*MouseMove2Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MouseMove2 not implemented")
 }
 
 func RegisterPeekabooServer(s *grpc.Server, srv PeekabooServer) {
@@ -984,6 +1684,114 @@ func _Peekaboo_ChangeProperties_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Peekaboo_MouseDown_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseDownRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseDown(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseDown",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseDown(ctx, req.(*MouseDownRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_MouseDown2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseDown2Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseDown2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseDown2",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseDown2(ctx, req.(*MouseDown2Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_MouseUp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseUpRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseUp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseUp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseUp(ctx, req.(*MouseUpRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_MouseUp2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseUp2Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseUp2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseUp2",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseUp2(ctx, req.(*MouseUp2Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_MouseMove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseMoveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseMove(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseMove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseMove(ctx, req.(*MouseMoveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Peekaboo_MouseMove2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MouseMove2Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeekabooServer).MouseMove2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Peekaboo/MouseMove2",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeekabooServer).MouseMove2(ctx, req.(*MouseMove2Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Peekaboo_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.Peekaboo",
 	HandlerType: (*PeekabooServer)(nil),
@@ -1015,6 +1823,30 @@ var _Peekaboo_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangeProperties",
 			Handler:    _Peekaboo_ChangeProperties_Handler,
+		},
+		{
+			MethodName: "MouseDown",
+			Handler:    _Peekaboo_MouseDown_Handler,
+		},
+		{
+			MethodName: "MouseDown2",
+			Handler:    _Peekaboo_MouseDown2_Handler,
+		},
+		{
+			MethodName: "MouseUp",
+			Handler:    _Peekaboo_MouseUp_Handler,
+		},
+		{
+			MethodName: "MouseUp2",
+			Handler:    _Peekaboo_MouseUp2_Handler,
+		},
+		{
+			MethodName: "MouseMove",
+			Handler:    _Peekaboo_MouseMove_Handler,
+		},
+		{
+			MethodName: "MouseMove2",
+			Handler:    _Peekaboo_MouseMove2_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -213,3 +213,153 @@ func encodeChangePropertiesResponse(ctx context.Context, w http1.ResponseWriter,
 	err = json.NewEncoder(w).Encode(response)
 	return
 }
+
+// makeMouseDownHandler creates the handler logic
+func makeMouseDownHandler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-down").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseDownEndpoint, decodeMouseDownRequest, encodeMouseDownResponse, options...)))
+}
+
+// decodeMouseDownRequest is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseDownRequest(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseDownRequest{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseDownResponse is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseDownResponse(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}
+
+// makeMouseDown2Handler creates the handler logic
+func makeMouseDown2Handler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-down2").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseDown2Endpoint, decodeMouseDown2Request, encodeMouseDown2Response, options...)))
+}
+
+// decodeMouseDown2Request is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseDown2Request(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseDown2Request{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseDown2Response is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseDown2Response(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}
+
+// makeMouseUpHandler creates the handler logic
+func makeMouseUpHandler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-up").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseUpEndpoint, decodeMouseUpRequest, encodeMouseUpResponse, options...)))
+}
+
+// decodeMouseUpRequest is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseUpRequest(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseUpRequest{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseUpResponse is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseUpResponse(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}
+
+// makeMouseUp2Handler creates the handler logic
+func makeMouseUp2Handler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-up2").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseUp2Endpoint, decodeMouseUp2Request, encodeMouseUp2Response, options...)))
+}
+
+// decodeMouseUp2Request is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseUp2Request(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseUp2Request{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseUp2Response is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseUp2Response(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}
+
+// makeMouseMoveHandler creates the handler logic
+func makeMouseMoveHandler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-move").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseMoveEndpoint, decodeMouseMoveRequest, encodeMouseMoveResponse, options...)))
+}
+
+// decodeMouseMoveRequest is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseMoveRequest(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseMoveRequest{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseMoveResponse is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseMoveResponse(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}
+
+// makeMouseMove2Handler creates the handler logic
+func makeMouseMove2Handler(m *mux.Router, endpoints endpoint.Endpoints, options []http.ServerOption) {
+	m.Methods("POST").Path("/mouse-move2").Handler(handlers.CORS(handlers.AllowedMethods([]string{"POST"}), handlers.AllowedOrigins([]string{"*"}))(http.NewServer(endpoints.MouseMove2Endpoint, decodeMouseMove2Request, encodeMouseMove2Response, options...)))
+}
+
+// decodeMouseMove2Request is a transport/http.DecodeRequestFunc that decodes a
+// JSON-encoded request from the HTTP request body.
+func decodeMouseMove2Request(_ context.Context, r *http1.Request) (interface{}, error) {
+	req := endpoint.MouseMove2Request{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}
+
+// encodeMouseMove2Response is a transport/http.EncodeResponseFunc that encodes
+// the response as JSON to the response writer
+func encodeMouseMove2Response(ctx context.Context, w http1.ResponseWriter, response interface{}) (err error) {
+	if f, ok := response.(endpoint.Failure); ok && f.Failed() != nil {
+		ErrorEncoder(ctx, f.Failed(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	err = json.NewEncoder(w).Encode(response)
+	return
+}

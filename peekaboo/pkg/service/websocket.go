@@ -38,9 +38,10 @@ var upgrader = websocket.Upgrader{
 
 // 클라이언트 정보
 type Client struct {
-	Conn *websocket.Conn
-	Id string
-	Send chan []byte
+	Conn                   *websocket.Conn
+	LocalDataChannelLabel  string
+	RemoteDataChannelLabel string
+	Send                   chan []byte
 }
 type Hub struct {
 	Clients    map[*Client]bool
@@ -49,9 +50,12 @@ type Hub struct {
 	unregister chan *Client
 }
 type WebSocketMessage struct {
-	Service string `json:"service,omitempty"`
-	Data     interface{} `json:"data,omitempty"`
+	Service string      `json:"service,omitempty"`
+	Label   string      `json:"label,omitempty"`
+	Type    string      `json:"type,omitempty"`
+	Data    interface{} `json:"data,omitempty"`
 }
+
 func (w *WebSocketMessage) Encode() (b []byte, err error) {
 	b, err = json.Marshal(w)
 	if err != nil {
@@ -60,6 +64,7 @@ func (w *WebSocketMessage) Encode() (b []byte, err error) {
 
 	return
 }
+
 var WebSocketHub *Hub
 
 func init() {
@@ -83,18 +88,23 @@ func (c *Client) readPump() {
 			return
 		}
 		fmt.Fprintf(os.Stderr, "RECEIVE: %v\n", message.Service)
+		label := message.Label
 		switch message.Service {
 		case "Connect":
 			fmt.Fprintf(os.Stderr, "Create Offer\n")
-			id := message.Data.(string)
+			//id := message.Data.(string)
 			if WebRTCMap == nil {
 				WebRTCMap = make(map[string]WebRTC)
 			}
 			webRTC := WebRTC{}
-			webRTC.CreateDataChannel(id)
+			webRTC.CreateDataChannel(label, message.Type)
 			webRTC.CreateOffer()
-			WebRTCMap[id] = webRTC
-			c.Id = id
+			WebRTCMap[label] = webRTC
+			if message.Type == "remote" {
+				c.RemoteDataChannelLabel = label
+			} else {
+				c.LocalDataChannelLabel = label
+			}
 
 			message.Service = "Offer"
 			message.Data = webRTC.Offer
@@ -105,14 +115,18 @@ func (c *Client) readPump() {
 				c.Send <- response
 			}
 		case "Answer":
+			fmt.Fprintf(os.Stderr, "%#v\n", message)
 			b, _ := json.Marshal(message.Data)
-			for _, v := range WebRTCMap {
-				v.ReceiveAnswer(string(b))
+			if _, ok := WebRTCMap[label]; ok {
+				c := WebRTCMap[label]
+				c.ReceiveAnswer(string(b))
 			}
 		case "Candidate":
+			fmt.Fprintf(os.Stderr, "%#v\n", message)
 			b, _ := json.Marshal(message.Data)
-			for _, v := range WebRTCMap {
-				v.AddCandidate(string(b))
+			if _, ok := WebRTCMap[label]; ok {
+				c := WebRTCMap[label]
+				c.AddCandidate(string(b))
 			}
 		}
 	}
@@ -222,16 +236,8 @@ func (h *Hub) run() {
 				//userid := client.user.UserId
 				//remember := client.remember
 				//session_uuid := client.session_uuid
-				if _, ok := WebRTCMap[client.Id]; ok {
-					if WebRTCMap[client.Id].DataChannel != nil {
-						d, _ := WebRTCMap[client.Id].DataChannel.Detach()
-						if d != nil {
-							fmt.Fprintf(os.Stderr, "%#v\n", WebRTCMap[client.Id].DataChannel)
-							WebRTCMap[client.Id].DataChannel.Close()
-						}
-					}
-					delete(WebRTCMap, client.Id)
-				}
+				RemoveWebRTC(client.LocalDataChannelLabel)
+				RemoveWebRTC(client.RemoteDataChannelLabel)
 				delete(h.Clients, client)
 				close(client.Send)
 
@@ -316,8 +322,8 @@ func ServeWebSocket(w http.ResponseWriter, r *http.Request) {
 	//respBody.Debug("< " + GetFunctionName() + " WebSocket Connection Incoming")
 
 	client := &Client{
-		Conn:        conn,
-		Send:        make(chan []byte, 4096),
+		Conn: conn,
+		Send: make(chan []byte, 4096),
 	}
 	WebSocketHub.register <- client
 

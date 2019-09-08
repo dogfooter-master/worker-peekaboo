@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/pion/webrtc"
+	"os"
+	"strconv"
 )
 
 type WebRTC struct {
@@ -19,14 +21,24 @@ var WebRTCMap map[string]WebRTC
 func init() {
 	WebRTCConfig = webrtc.Configuration{
 		ICEServers: []webrtc.ICEServer{
+			//{
+			//	URLs: []string{"stun:stun.l.google.com:19302"},
+			//},
+			//{
+			//	URLs: []string{"turn:numb.viagenie.ca"},
+			//	Credential: "Hotice1234!",
+			//	Username: "sws871@gmail.com",
+			//},
 			{
-				URLs: []string{"stun:stun.l.google.com:19302"},
+				URLs: []string{"turn:flowork.ai:3478"},
+				Credential: "Hotice1234!",
+				Username: "flowork",
 			},
 		},
 	}
 }
 
-func (o *WebRTC) CreateDataChannel(label string) (err error){
+func (o *WebRTC) CreateDataChannel(label string, channelType string) (err error){
 	o.PeerConnection, err = webrtc.NewPeerConnection(WebRTCConfig)
 	if err != nil {
 		panic(err)
@@ -56,6 +68,30 @@ func (o *WebRTC) CreateDataChannel(label string) (err error){
 	})
 	o.DataChannel.OnMessage(func(msg webrtc.DataChannelMessage) {
 		fmt.Printf("Message from DataChannel '%s': '%s'\n", o.DataChannel.Label(), string(msg.Data))
+		type MouseAction struct {
+			Command string `json:"command,omitempty"`
+			X string `json:"x,omitempty"`
+			Y string `json:"y,omitempty"`
+		}
+		var message MouseAction
+		err := json.Unmarshal(msg.Data, &message)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			return
+		}
+		x, _ := strconv.ParseFloat(message.X, 32)
+		y, _ := strconv.ParseFloat(message.Y, 32)
+		if CurrentStream.Handle != 0 {
+			fmt.Fprintf(os.Stderr, "RECEIVE: %v, %v, %v, %v\n", message.Command, x, y, CurrentStream)
+			switch message.Command {
+			case "mouse_down":
+				peekabooWindowInfo.MouseDown(CurrentStream.Handle, float32(x), float32(y))
+			case "mouse_move":
+				peekabooWindowInfo.MouseMove(CurrentStream.Handle, float32(x), float32(y))
+			case "mouse_up":
+				peekabooWindowInfo.MouseUp(CurrentStream.Handle, float32(x), float32(y))
+			}
+		}
 	})
 
 	o.PeerConnection.OnICECandidate(func(c *webrtc.ICECandidate) {
@@ -65,8 +101,12 @@ func (o *WebRTC) CreateDataChannel(label string) (err error){
 
 		message := WebSocketMessage{
 			Service: "Candidate",
+			Label: label,
+			Type: channelType,
 			Data: c.ToJSON(),
 		}
+
+		fmt.Printf("Candidate: %#v\n", message)
 		b, _ := message.Encode()
 
 		WebSocketHub.Broadcast(b)
@@ -117,4 +157,17 @@ func (o *WebRTC) AddCandidate(rs string) (err error) {
 		panic(err)
 	}
 	return
+}
+
+func RemoveWebRTC(label string) {
+	if _, ok := WebRTCMap[label]; ok {
+		if WebRTCMap[label].DataChannel != nil {
+			d, _ := WebRTCMap[label].DataChannel.Detach()
+			if d != nil {
+				fmt.Fprintf(os.Stderr, "%#v\n", WebRTCMap[label].DataChannel)
+				WebRTCMap[label].DataChannel.Close()
+			}
+		}
+		delete(WebRTCMap, label)
+	}
 }
