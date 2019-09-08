@@ -21,14 +21,14 @@ var WebRTCMap map[string]WebRTC
 func init() {
 	WebRTCConfig = webrtc.Configuration{
 		ICEServers: []webrtc.ICEServer{
-			//{
-			//	URLs: []string{"stun:stun.l.google.com:19302"},
-			//},
-			//{
-			//	URLs: []string{"turn:numb.viagenie.ca"},
-			//	Credential: "Hotice1234!",
-			//	Username: "sws871@gmail.com",
-			//},
+			{
+				URLs: []string{"stun:stun.l.google.com:19302"},
+			},
+			{
+				URLs: []string{"turn:numb.viagenie.ca"},
+				Credential: "Hotice1234!",
+				Username: "sws871@gmail.com",
+			},
 			{
 				URLs: []string{"turn:flowork.ai:3478"},
 				Credential: "Hotice1234!",
