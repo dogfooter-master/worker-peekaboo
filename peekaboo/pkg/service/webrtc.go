@@ -24,16 +24,16 @@ func init() {
 			{
 				URLs: []string{"stun:stun.l.google.com:19302"},
 			},
-			{
-				URLs: []string{"turn:numb.viagenie.ca"},
-				Credential: "Hotice1234!",
-				Username: "sws871@gmail.com",
-			},
-			{
-				URLs: []string{"turn:flowork.ai:3478"},
-				Credential: "Hotice1234!",
-				Username: "flowork",
-			},
+			//{
+			//	URLs: []string{"turn:numb.viagenie.ca"},
+			//	Credential: "Hotice1234!",
+			//	Username: "sws871@gmail.com",
+			//},
+			//{
+			//	URLs: []string{"turn:flowork.ai:3478"},
+			//	Credential: "Hotice1234!",
+			//	Username: "flowork",
+			//},
 		},
 	}
 }

@@ -38,9 +38,11 @@ func Streaming(worker int) {
 	for {
 		select {
 		case ss = <-StreamingRequest:
+			s := ss
 			for len(StreamingKeepGoing) > 0 {
-				<-StreamingKeepGoing
+				s = <-StreamingKeepGoing
 			}
+			s.Command = ss.Command
 			switch ss.Command {
 			case "start":
 				StreamingKeepGoing <- ss
@@ -53,7 +55,7 @@ func Streaming(worker int) {
 			case "change":
 				StreamingKeepGoing <- ss
 			}
-			fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'\n", worker, ss.Command)
+			fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%#v'\n", worker, ss)
 		case ss = <- StreamingKeepGoing:
 			if ss.Fps > 60 {
 				ss.Fps = 60
@@ -69,7 +71,7 @@ func Streaming(worker int) {
 				if WebRTCMap != nil {
 					//defer timeTrack(time.Now(), GetFunctionName() + "-22")
 					if v, ok := WebRTCMap[ss.ChannelLabel]; ok {
-						//fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality)
+						fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality)
 						if v.DataChannel.ReadyState() == webrtc.DataChannelStateOpen && v.DataChannel.Label() == ss.ChannelLabel {
 							isFound = true
 							buf := new(bytes.Buffer)
