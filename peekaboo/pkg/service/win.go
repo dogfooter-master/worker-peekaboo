@@ -25,6 +25,21 @@ type PeekabooWin struct {
 
 var peekabooWindowInfo PeekabooWin
 
+func (p *PeekabooWin) NextHandle(hWnd w32.HWND) (handle w32.HWND) {
+	i := 0
+	for _, e := range p.HWNDList {
+		i += 1
+		if e == hWnd {
+			break
+		}
+	}
+	if i == len(p.HWNDList) {
+		i = 0
+	}
+	handle = w32.HWND(i)
+	return
+}
+
 func (p *PeekabooWin) CallbackMomoChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32.LRESULT {
 	s := w32.GetWindowText(hWnd)
 	//fmt.Println("MOMO child:", s, "# hWnd:", hWnd, "# lParam:", lParam)

@@ -79,17 +79,26 @@ func (o *WebRTC) CreateDataChannel(label string, channelType string) (err error)
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			return
 		}
-		x, _ := strconv.ParseFloat(message.X, 32)
-		y, _ := strconv.ParseFloat(message.Y, 32)
 		if CurrentStream.Handle != 0 {
-			fmt.Fprintf(os.Stderr, "RECEIVE: %v, %v, %v, %v\n", message.Command, x, y, CurrentStream)
+			fmt.Fprintf(os.Stderr, "RECEIVE: %v, %v\n", message, CurrentStream)
 			switch message.Command {
 			case "mouse_down":
+				x, _ := strconv.ParseFloat(message.X, 32)
+				y, _ := strconv.ParseFloat(message.Y, 32)
 				peekabooWindowInfo.MouseDown(CurrentStream.Handle, float32(x), float32(y))
 			case "mouse_move":
+				x, _ := strconv.ParseFloat(message.X, 32)
+				y, _ := strconv.ParseFloat(message.Y, 32)
 				peekabooWindowInfo.MouseMove(CurrentStream.Handle, float32(x), float32(y))
 			case "mouse_up":
+				x, _ := strconv.ParseFloat(message.X, 32)
+				y, _ := strconv.ParseFloat(message.Y, 32)
 				peekabooWindowInfo.MouseUp(CurrentStream.Handle, float32(x), float32(y))
+			case "switch":
+				ss := CurrentStream
+				ss.Command = "start"
+				ss.Handle = peekabooWindowInfo.NextHandle(CurrentStream.Handle)
+				StreamingRequest <- ss
 			}
 		}
 	})
