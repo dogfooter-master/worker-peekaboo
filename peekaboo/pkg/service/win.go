@@ -182,10 +182,73 @@ func (p *PeekabooWin) FindWindowWildcard() {
 		}
 	}
 }
+
+func (p *PeekabooWin) CallbackChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32.LRESULT {
+	s := w32.GetWindowText(hWnd)
+	rect := w32.GetWindowRect(hWnd)
+	fmt.Println("+- child:", s, "# hWnd:", hWnd, "# lParam:", lParam, "# title:", s, "# rect:", rect)
+	switch s {
+	case "TheRender":
+		fallthrough
+	case "ScreenBoardClassWindow":
+		isFound := false
+		for _, v := range p.HWNDList {
+			if v == hWnd {
+				isFound = true
+			}
+		}
+		if !isFound {
+			p.HWNDList = append(p.HWNDList, hWnd)
+			if p.ParentHWNDMap == nil {
+				p.ParentHWNDMap = make(map[w32.HWND]w32.HWND)
+			}
+			p.ParentHWNDMap[hWnd] = w32.HWND(lParam)
+
+			if p.TitleMap == nil {
+				p.TitleMap = make(map[w32.HWND]string)
+			}
+			p.TitleMap[hWnd] = w32.GetWindowText(w32.HWND(lParam))
+
+			rect := w32.GetWindowRect(hWnd)
+			if p.RectMap == nil {
+				p.RectMap = make(map[w32.HWND]*w32.RECT)
+			}
+			p.RectMap[hWnd] = rect
+		}
+	}
+	return 1
+}
+func (p *PeekabooWin) FindWindowWildcard2() {
+	//defer timeTrack(time.Now(), GetFunctionName())
+	err := w32syscall.EnumWindows(func(hWnd syscall.Handle, lParam uintptr) bool {
+		var h w32.HWND
+		h = w32.HWND(hWnd)
+		if w32.IsWindowVisible(h) == false {
+			return true
+		}
+
+		rect := w32.GetWindowRect(h)
+		title := w32.GetWindowText(h)
+
+		match, _ := regexp.MatchString(p.Wildcard, title)
+		if len(title) > 0 && match {
+			if w32.IsWindowVisible(h) {
+				fmt.Fprintf(os.Stderr, "+ %v, %v, %v\n", title, match, *rect)
+				//fmt.Fprintf(os.Stderr, "DEBUG: %v, %v\n", GetConfigSizeWidth(), GetConfigSizeHeight())
+				//fmt.Fprintf(os.Stderr, "DEBUG: (%v, %v)\n", math.Abs(float64(rect.Right-rect.Left)), float64(GetConfigSizeWidth()+38))
+				w32.EnumChildWindows(h, p.CallbackChildProcess, w32.LPARAM(h))
+			}
+		}
+		return true
+	}, 0)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "FindWindowWildcard: %v", err)
+	}
+}
 func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 
 	//defer timeTrack(time.Now(), GetFunctionName())
-	var mod = syscall.NewLazyDLL("user32.dll")
+	var mod= syscall.NewLazyDLL("user32.dll")
 	//var proc = mod.NewProc("MessageBoxW")
 	//var MB_YESNOCANCEL = 0x00000003
 	//
@@ -195,7 +258,13 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 	//	uintptr(MB_YESNOCANCEL))
 	//
 	//fmt.Println("Return: ", ret)
-	var GetWindowDC = mod.NewProc("GetWindowDC")
+	var GetWindowDC= mod.NewProc("GetWindowDC")
+
+	defer func() {
+		if v := recover(); v != nil {
+			img = nil
+		}
+	}()
 
 	rect := w32.GetClientRect(hWnd)
 	w := uint(rect.Right - rect.Left)
@@ -316,7 +385,7 @@ func (p *PeekabooWin) MouseUp(hWnd w32.HWND, x, y float32) {
 }
 func (p *PeekabooWin) MouseUp2(hWnd w32.HWND, x, y int) {
 	fmt.Fprintf(os.Stderr, "MouseUp2 #%v - X: %v, Y: %v\n", w32.GetWindowText(hWnd), x, y)
-	w32.PostMessage(hWnd, w32.WM_LBUTTONUP, w32.VK_LBUTTON, MakeLong(x, y))
+	w32.PostMessage(hWnd, w32.WM_LBUTTONUP, 0, MakeLong(x, y))
 }
 func (p *PeekabooWin) MouseMove(hWnd w32.HWND, x, y float32) {
 	if _, ok := p.RectMap[hWnd]; ok {

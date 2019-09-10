@@ -81,7 +81,7 @@ func (b *basicPeekabooService) RefreshWindows(ctx context.Context, req *pb.Refre
 		Wildcard: req.Keyword,
 	}
 
-	peekabooWindowInfo.FindWindowWildcard()
+	peekabooWindowInfo.FindWindowWildcard2()
 
 	var windowList []*pb.RefreshWindowsReply_Window
 	for _, e := range peekabooWindowInfo.HWNDList {
