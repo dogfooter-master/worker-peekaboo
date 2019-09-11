@@ -72,7 +72,7 @@ func Streaming(worker int) {
 					if WebRTCMap != nil {
 						//defer timeTrack(time.Now(), GetFunctionName() + "-22")
 						if v, ok := WebRTCMap[ss.ChannelLabel]; ok {
-							//fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality, img.Bounds())
+							fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'-'%v'-'%v'-'%v'-'%v'\n", worker, v.DataChannel.Label(), ss.Handle, ss.Fps, ss.Quality, img.Bounds())
 							if v.DataChannel.ReadyState() == webrtc.DataChannelStateOpen && v.DataChannel.Label() == ss.ChannelLabel {
 								isFound = true
 								buf := new(bytes.Buffer)
