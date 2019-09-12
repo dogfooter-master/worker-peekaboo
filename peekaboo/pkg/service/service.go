@@ -1,17 +1,13 @@
 package service
 
 import (
-	"bytes"
 	"context"
 	"fmt"
-	"image/jpeg"
 	"os"
 	"time"
 	"worker-peekaboo/peekaboo/pkg/grpc/pb"
 
 	"github.com/TheTitanrain/w32"
-
-	"github.com/pion/webrtc"
 )
 
 // PeekabooService describes the service.
@@ -40,35 +36,6 @@ func (b *basicPeekabooService) Pikabu(ctx context.Context, req *pb.PikabuRequest
 	//defer timeTrack(time.Now(), GetFunctionName())
 	//fmt.Fprintf(os.Stderr, "DEBUG: Category: %v\n", req.Category)
 
-	pWin := PeekabooWin{
-		Wildcard: req.Keyword,
-	}
-	pWin.FindWindowWildcard()
-
-	//fmt.Println("Result:", pWin)
-
-	if len(pWin.HWNDList) > 0 {
-		img := pWin.GetWindowScreenShot(pWin.HWNDList[0])
-		if WebRTCMap != nil {
-			//defer timeTrack(time.Now(), GetFunctionName() + "-22")
-			for _, v := range WebRTCMap {
-				//fmt.Fprintf(os.Stderr, "DEBUG: '%v'-'%v'\n", v.DataChannel.Label(), v.DataChannel.ReadyState())
-				if v.DataChannel.ReadyState() == webrtc.DataChannelStateOpen {
-					buf := new(bytes.Buffer)
-					//_ = png.Encode(buf, img)
-					_ = jpeg.Encode(buf, img, &jpeg.Options{Quality: 75})
-					s := buf.Bytes()
-					//s = []byte{ 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10}
-
-					//fmt.Fprintf(os.Stderr, "DEBUG: %v %v\n", len(s), math.MaxUint16)
-					if err = SendImageBuffer(v.DataChannel, s); err != nil {
-						return
-					}
-				}
-			}
-		}
-	}
-
 	res = &pb.PikabuReply{
 		Category: "response_" + req.Category,
 	}
@@ -84,11 +51,11 @@ func (b *basicPeekabooService) RefreshWindows(ctx context.Context, req *pb.Refre
 	peekabooWindowInfo.FindWindowWildcard2()
 
 	var windowList []*pb.RefreshWindowsReply_Window
-	for _, e := range peekabooWindowInfo.HWNDList {
+	for k, v := range peekabooWindowInfo.HandleMap {
 		windowList = append(windowList,
 			&pb.RefreshWindowsReply_Window{
-				Title:  peekabooWindowInfo.TitleMap[e],
-				Handle: int32(e),
+				Title:  v.Title,
+				Handle: int32(k),
 			})
 	}
 

@@ -94,6 +94,12 @@ func (o *WebRTC) CreateDataChannel(label string, channelType string) (err error)
 				x, _ := strconv.ParseFloat(message.X, 32)
 				y, _ := strconv.ParseFloat(message.Y, 32)
 				peekabooWindowInfo.MouseUp(CurrentStream.Handle, float32(x), float32(y))
+			case "back":
+				peekabooWindowInfo.Back(CurrentStream.Handle)
+			case "home":
+				peekabooWindowInfo.Home(CurrentStream.Handle)
+			case "recent":
+				peekabooWindowInfo.Recent(CurrentStream.Handle)
 			case "switch":
 				ss := CurrentStream
 				ss.Command = "start"
