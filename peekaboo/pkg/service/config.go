@@ -77,13 +77,13 @@ func LoadConfig() (err error) {
 	return
 }
 func GetConfigButtonPosition(emulatorType string, titleHeight int32, command string) (position PositionConfig) {
-	fmt.Fprintf(os.Stderr, "DEBUG1: %v %v %v\n", emulatorType, titleHeight, command)
+	//fmt.Fprintf(os.Stderr, "DEBUG1: %v %v %v\n", emulatorType, titleHeight, command)
 	if _, ok := emulatorConfig[emulatorType]; ok {
-		fmt.Fprintf(os.Stderr, "DEBUG2: %#v\n", emulatorConfig[emulatorType])
+		//fmt.Fprintf(os.Stderr, "DEBUG2: %#v\n", emulatorConfig[emulatorType])
 		for _, e := range emulatorConfig[emulatorType].Side {
-			fmt.Fprintf(os.Stderr, "DEBUG3: %#v\n", e)
+			//fmt.Fprintf(os.Stderr, "DEBUG3: %#v\n", e)
 			if e.TitleHeight == titleHeight {
-				fmt.Fprintf(os.Stderr, "DEBUG: %#v\n", e)
+				//fmt.Fprintf(os.Stderr, "DEBUG: %#v\n", e)
 				switch command {
 				case "back":
 					position = e.Back

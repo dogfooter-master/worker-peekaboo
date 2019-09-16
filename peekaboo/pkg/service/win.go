@@ -248,9 +248,6 @@ func (p *PeekabooWin) CallbackChildProcess(hWnd w32.HWND, lParam w32.LPARAM) w32
 	case "TheRender":
 		sideHandle = w32.HWND(lParam)
 		emulatorType = "LDPlayer"
-		back = p.GetCommandPosition(hWnd, w32.HWND(lParam), emulatorType, "back")
-		home = p.GetCommandPosition(hWnd, w32.HWND(lParam), emulatorType, "home")
-		recent = p.GetCommandPosition(hWnd, w32.HWND(lParam), emulatorType, "recent")
 	case "ScreenBoardClassWindow":
 		emulatorType = "Nox"
 	}
@@ -316,12 +313,16 @@ func (p *PeekabooWin) FindWindowWildcard2() {
 	for _, v := range p.HandleMap {
 		if v.Type == "Nox" {
 			for _, e := range noxSideWindows {
+				//fmt.Fprintf(os.Stderr, "DEBUG-- %v, %v, %v, %v\n", e.Handle, e.Rect, v.Title, v.Rect)
+				// 가로모드 녹스
 				if  math.Abs(float64(v.Rect.Right - e.Rect.Left)) == float64(2) &&
 					math.Abs(float64(v.Rect.Bottom - e.Rect.Bottom)) == float64(2) {
 					v.SideHandle = e.Handle
-					v.Back = p.GetCommandPosition(v.Handle, v.SideHandle, v.Type, "back")
-					v.Home = p.GetCommandPosition(v.Handle, v.SideHandle, v.Type, "home")
-					v.Recent = p.GetCommandPosition(v.Handle, v.SideHandle, v.Type, "recent")
+				}
+				// 세로모드 녹스
+				if  math.Abs(float64(v.Rect.Right - e.Rect.Left)) == float64(2) &&
+					math.Abs(float64(v.Rect.Bottom - e.Rect.Bottom)) == float64(5) {
+					v.SideHandle = e.Handle
 				}
 			}
 		}
@@ -354,7 +355,7 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 	rect := w32.GetClientRect(hWnd)
 	w := uint(rect.Right - rect.Left)
 	h := uint(rect.Bottom - rect.Top)
-	//fmt.Println("#", w, "#", h)
+	fmt.Println("#", w, "#", h)
 
 	hDc, _, _ := GetWindowDC.Call(uintptr(hWnd))
 	if hDc == 0 {
@@ -440,9 +441,14 @@ func (p *PeekabooWin) GetWindowScreenShot(hWnd w32.HWND) (img *image.RGBA) {
 
 	//w32.DeleteObject(w32.HGDIOBJ(hBitmap))
 }
+func (p *PeekabooWin) GetRect(hWnd w32.HWND) *w32.RECT {
+	// TODO 나중에 부하를 줄이자. 동적으로 크기를 구하지 않기.
+	//return p.HandleMap[hWnd].Rect
+	return w32.GetWindowRect(hWnd)
+}
 func (p *PeekabooWin) MouseDown(hWnd w32.HWND, x, y float32) {
 	if _, ok := p.HandleMap[hWnd]; ok {
-		rect := p.HandleMap[hWnd].Rect
+		rect := p.GetRect(hWnd)
 		w := math.Abs(float64(rect.Right - rect.Left))
 		h := math.Abs(float64(rect.Bottom - rect.Top))
 
@@ -458,7 +464,7 @@ func (p *PeekabooWin) MouseDown2(hWnd w32.HWND, x, y int) {
 }
 func (p *PeekabooWin) MouseUp(hWnd w32.HWND, x, y float32) {
 	if _, ok := p.HandleMap[hWnd]; ok {
-		rect := p.HandleMap[hWnd].Rect
+		rect :=p.GetRect(hWnd)
 		w := math.Abs(float64(rect.Right - rect.Left))
 		h := math.Abs(float64(rect.Bottom - rect.Top))
 
@@ -474,7 +480,7 @@ func (p *PeekabooWin) MouseUp2(hWnd w32.HWND, x, y int) {
 }
 func (p *PeekabooWin) MouseMove(hWnd w32.HWND, x, y float32) {
 	if _, ok := p.HandleMap[hWnd]; ok {
-		rect := p.HandleMap[hWnd].Rect
+		rect :=p.GetRect(hWnd)
 		w := math.Abs(float64(rect.Right - rect.Left))
 		h := math.Abs(float64(rect.Bottom - rect.Top))
 
@@ -491,6 +497,7 @@ func (p *PeekabooWin) MouseMove2(hWnd w32.HWND, x, y int) {
 func (p *PeekabooWin) Back(hWnd w32.HWND) {
 	if _, ok := p.HandleMap[hWnd]; ok {
 		sideHandle := p.HandleMap[hWnd].SideHandle
+		p.HandleMap[hWnd].Back = p.GetCommandPosition(hWnd, sideHandle, p.HandleMap[hWnd].Type, "back")
 		buttonPosX := p.HandleMap[hWnd].Back.X
 		buttonPosY := p.HandleMap[hWnd].Back.Y
 		p.MouseClick(sideHandle, buttonPosX, buttonPosY)
@@ -499,6 +506,7 @@ func (p *PeekabooWin) Back(hWnd w32.HWND) {
 func (p *PeekabooWin) Home(hWnd w32.HWND) {
 	if _, ok := p.HandleMap[hWnd]; ok {
 		sideHandle := p.HandleMap[hWnd].SideHandle
+		p.HandleMap[hWnd].Home = p.GetCommandPosition(hWnd, sideHandle, p.HandleMap[hWnd].Type, "home")
 		buttonPosX := p.HandleMap[hWnd].Home.X
 		buttonPosY := p.HandleMap[hWnd].Home.Y
 		p.MouseClick(sideHandle, buttonPosX, buttonPosY)
@@ -507,6 +515,7 @@ func (p *PeekabooWin) Home(hWnd w32.HWND) {
 func (p *PeekabooWin) Recent(hWnd w32.HWND) {
 	if _, ok := p.HandleMap[hWnd]; ok {
 		sideHandle := p.HandleMap[hWnd].SideHandle
+		p.HandleMap[hWnd].Recent = p.GetCommandPosition(hWnd, sideHandle, p.HandleMap[hWnd].Type, "recent")
 		buttonPosX := p.HandleMap[hWnd].Recent.X
 		buttonPosY := p.HandleMap[hWnd].Recent.Y
 		p.MouseClick(sideHandle, buttonPosX, buttonPosY)
